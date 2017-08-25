@@ -239,7 +239,7 @@ void matrix_scan_user(void) {
         default:
             // none
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0xff,0xff,0xff);
+            rgblight_setrgb(0x50,0x50,0x50);
             rgblight_mode(1);
             #endif
             break;
