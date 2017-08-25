@@ -220,12 +220,21 @@ void matrix_scan_user(void) {
     switch (layer) {
         case 1:
             ergodox_right_led_1_on();
+            #ifdef RGBLIGHT_ENABLE
+            rgblight_setrgb(0xff,0x00,0x00);
+            #endif
             break;
         case 2:
             ergodox_right_led_2_on();
+            #ifdef RGBLIGHT_ENABLE
+            rgblight_setrgb(0x00,0xff,0x00);
+            #endif
             break;
         case 3:
             ergodox_right_led_3_on();
+            #ifdef RGBLIGHT_ENABLE
+            rgblight_setrgb(0x00,0x00,0xff);
+            #endif
             break;
         default:
             // none
