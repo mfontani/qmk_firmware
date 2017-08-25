@@ -14,6 +14,10 @@ enum custom_keycodes {
   RGB_SLD
 };
 
+// custom layer change change colour
+bool has_layer_changed = false;
+static uint8_t current_layer;
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
@@ -195,6 +199,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
   ergodox_led_all_on();
+#ifdef RGBLIGHT_ENABLE
+    rgblight_enable(1);
+    rgblight_setrgb(0xff,0xff,0xff);
+#endif
   for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
     ergodox_led_all_set(i);
     wait_ms(5);
@@ -221,28 +229,40 @@ void matrix_scan_user(void) {
         case 1:
             ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0xff,0x00,0x00);
+            if (has_layer_changed) {
+                rgblight_setrgb(0xff,0x00,0x00);
+            }
             #endif
             break;
         case 2:
             ergodox_right_led_2_on();
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0x00,0xff,0x00);
+            if (has_layer_changed) {
+                rgblight_setrgb(0x00,0xff,0x00);
+            }
             #endif
             break;
         case 3:
             ergodox_right_led_3_on();
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0x00,0x00,0xff);
+            if (has_layer_changed) {
+                rgblight_setrgb(0x00,0x00,0xff);
+            }
             #endif
             break;
         default:
             // none
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0x50,0x50,0x50);
-            rgblight_mode(1);
+            if (has_layer_changed) {
+                rgblight_setrgb(0x00,0x00,0x00);
+            }
             #endif
             break;
     }
-
+    if (current_layer == layer) {
+        has_layer_changed = false;
+    } else {
+        has_layer_changed = true;
+        current_layer = layer;
+    }
 };
