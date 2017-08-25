@@ -200,7 +200,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_init_user(void) {
   ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
-    rgblight_enable(1);
+    rgblight_enable();
+    rgblight_mode(1);
     rgblight_setrgb(0xff,0xff,0xff);
 #endif
   for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
