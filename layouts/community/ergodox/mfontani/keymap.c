@@ -255,7 +255,7 @@ void matrix_scan_user(void) {
             // none
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_setrgb(0x00,0x00,0x00);
+                rgblight_setrgb(0x40,0x40,0x40);
             }
             #endif
             break;
