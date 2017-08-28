@@ -95,10 +95,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | WhUP | WhDN |       |      |      |
+ *                                        | WhUP | WhDN |       |      | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |Brwser|
- *                                 |      |      |------|       |------|      |Back  |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
@@ -118,9 +118,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_TRNS, KC_MPLY,
        KC_TRNS,  KC_TRNS, KC_MUTE, KC_MPRV, KC_MNXT,  KC_UP,   KC_TRNS,
                           KC_VOLU, KC_VOLD, KC_RIGHT, KC_DOWN, KC_RIGHT,
-       KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_WBAK,
        KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_WBAK
+       KC_TRNS, KC_TRNS, KC_TRNS
 ),
 /* Keymap 2: Symbol Layer
  *
