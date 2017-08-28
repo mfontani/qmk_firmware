@@ -15,6 +15,7 @@ enum custom_keycodes {
   EMOJI_DISFACE,
   EMOJI_SHRUG,
   M_BREW_UPDATE,
+  M_GIT_REBASE_I_MASTER,
 };
 
 inline void tap(uint16_t keycode) {
@@ -116,7 +117,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * | Esc     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | Version|
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      |      |      |      |      |      |           |      |      |      |      |      |      | EPRM   |
+ * |         |      |      |      |git   |      |      |           |      |      |      |      |      |      | EPRM   |
+ * |         |      |      |      |rebase|      |      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |  -i  |      |      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |master|      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -136,8 +140,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,
-       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_ESC, KC_F1,  KC_F2,  KC_F3,  KC_F4,                KC_F5,  KC_F6,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,M_GIT_REBASE_I_MASTER,KC_TRNS,KC_TRNS,
        KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
        KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,M_BREW_UPDATE,EMOJI_SHRUG,
        KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
@@ -251,6 +255,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap(KC_K);
             unregister_code(KC_LCTRL);
             SEND_STRING("brew update ; brew upgrade ; brew cleanup");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_GIT_REBASE_I_MASTER:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("git rebase -i master");
             tap(KC_ENT);
         }
         return false;
