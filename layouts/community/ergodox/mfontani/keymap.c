@@ -11,7 +11,14 @@ enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
-  RGB_SLD
+  RGB_SLD,
+  EMOJI_DISFACE,
+  EMOJI_SHRUG,
+};
+
+inline void tap(uint16_t keycode) {
+    register_code(keycode);
+    unregister_code(keycode);
 };
 
 // custom layer change change colour
@@ -108,13 +115,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * | Esc     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | Version|
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  |        |
+ * |         |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  | EPRM   |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |   #  |   $  |   (  |   )  |   `  |------|           |------| Down |   4  |   5  |   6  |   +  |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
+ * |         |   %  |   ^  |   [  |   ]  |   ~  |¯(ツ)¯|           | ಠ_ಠ  |   &  |   1  |   2  |   3  |   \  |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   | EPRM  |      |      |      |      |                                       |      |    . |   0  |   =  |      |
+ *   |       |      |      |      |      |                                       |      |    . |   0  |   =  |      |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |Animat|      |       |Toggle|Solid |
@@ -130,16 +137,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_ESC, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,
        KC_TRNS,KC_EXLM,KC_AT,  KC_LCBR,KC_RCBR,KC_PIPE,KC_TRNS,
        KC_TRNS,KC_HASH,KC_DLR, KC_LPRN,KC_RPRN,KC_GRV,
-       KC_TRNS,KC_PERC,KC_CIRC,KC_LBRC,KC_RBRC,KC_TILD,KC_TRNS,
-          EPRM,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_PERC,KC_CIRC,KC_LBRC,KC_RBRC,KC_TILD,EMOJI_SHRUG,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
                                        RGB_MOD,KC_TRNS,
                                                KC_TRNS,
                                RGB_VAD,RGB_VAI,KC_TRNS,
        // right hand
        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  VRSN,
-       KC_TRNS, KC_UP,   KC_7,   KC_8,    KC_9,    KC_ASTR, KC_TRNS,
+       KC_TRNS, KC_UP,   KC_7,   KC_8,    KC_9,    KC_ASTR, EPRM,
                 KC_DOWN, KC_4,   KC_5,    KC_6,    KC_PLUS, KC_TRNS,
-       KC_TRNS, KC_AMPR, KC_1,   KC_2,    KC_3,    KC_BSLS, KC_TRNS,
+       EMOJI_DISFACE,    KC_AMPR,KC_1,    KC_2,    KC_3,    KC_BSLS, KC_TRNS,
                          KC_TRNS,KC_DOT,  KC_0,    KC_EQL,  KC_TRNS,
        RGB_TOG, RGB_SLD,
        KC_TRNS,
@@ -150,6 +157,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols)
 };
+
+// I've mapped Alt+Cmd+Space to switch to next layout.
+// I usually stay in US layout, so switching gets me into Unicode layout, and
+// switching back gets me back to US layout.
+void osx_switch_input_layout(void) {
+    register_code(KC_LGUI);
+    register_code(KC_LALT);
+    tap(KC_SPC);
+    unregister_code(KC_LALT);
+    unregister_code(KC_LGUI);
+}
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
@@ -192,12 +210,49 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case EMOJI_SHRUG: // ¯\_(ツ)_/¯
+        if (record->event.pressed) {
+            osx_switch_input_layout();
+            process_unicode((0x00AF|QK_UNICODE), record);   // Hand
+            tap(KC_BSLS);                                   // Arm
+            register_code(KC_RSFT);
+            tap(KC_UNDS);                                   // Arm
+            tap(KC_LPRN);                                   // Head
+            unregister_code(KC_RSFT);
+            process_unicode((0x30C4|QK_UNICODE), record);   // Face
+            register_code(KC_RSFT);
+            tap(KC_RPRN);                                   // Head
+            tap(KC_UNDS);                                   // Arm
+            unregister_code(KC_RSFT);
+            tap(KC_SLSH);                                   // Arm
+            process_unicode((0x00AF|QK_UNICODE), record);   // Hand
+            osx_switch_input_layout();
+        }
+      return false;
+      break;
+    case EMOJI_DISFACE: // ಠ_ಠ
+        if(record->event.pressed){
+            osx_switch_input_layout();
+            process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
+            register_code(KC_RSFT);
+            tap(KC_MINS);
+            unregister_code(KC_RSFT);
+            process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
+            osx_switch_input_layout();
+        }
+        return false;
+        break;
   }
   return true;
 }
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+    //set_unicode_input_mode(UC_LNX); // Linux
+    //set_unicode_input_mode(UC_OSX); // Mac OSX
+    set_unicode_input_mode(UC_OSX_RALT); // Mac OSX using right alt key
+    //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
+    //set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
   ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
