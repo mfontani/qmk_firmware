@@ -208,7 +208,7 @@ void matrix_init_user(void) {
     ergodox_led_all_set(i);
     wait_ms(5);
   }
-  wait_ms(500);
+  wait_ms(250);
   for (int i = LED_BRIGHTNESS_LO; i > 0; i--) {
     ergodox_led_all_set(i);
     wait_ms(10);
