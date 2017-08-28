@@ -214,6 +214,7 @@ void matrix_init_user(void) {
     wait_ms(10);
   }
   ergodox_led_all_off();
+  has_layer_changed = true;
 };
 
 
