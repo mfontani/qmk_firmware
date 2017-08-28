@@ -16,6 +16,16 @@ enum custom_keycodes {
   EMOJI_SHRUG,
   M_BREW_UPDATE,
   M_GIT_REBASE_I_MASTER,
+  M_SSH_WEB01,
+  M_SSH_WEB02,
+  M_SSH_WEB03,
+  M_SSH_WEB04,
+  M_SSH_OPS01,
+  M_SSH_OPS02,
+  M_SSH_OPS03,
+  M_SSH_APP01,
+  M_SSH_APP02,
+  M_SSH_HAPPY,
 };
 
 inline void tap(uint16_t keycode) {
@@ -115,14 +125,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 2: Symbol Layer
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
- * | Esc     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | Version|
+ * | Esc     | web01| web02| web03| web04|      |      |           |      |      |      |      |      |      | Version|
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      |      |      |git   |      |      |           |      |      |      |      |      |      | EPRM   |
+ * |         |      | app01|      |git   | ops01|      |           |      |      |      |      |      |      | EPRM   |
  * |         |      |      |      |rebase|      |      |           |      |      |      |      |      |      |        |
  * |         |      |      |      |  -i  |      |      |           |      |      |      |      |      |      |        |
  * |         |      |      |      |master|      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |         | app02| ops03|      | ops02|      |------|           |------|happy |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |      |      |      |      | brew |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      |      |        |
  * |         |      |      |      |      |update|      |           |      |      |      |      |      |      |        |
@@ -140,20 +150,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC, KC_F1,  KC_F2,  KC_F3,  KC_F4,                KC_F5,  KC_F6,
-       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,M_GIT_REBASE_I_MASTER,KC_TRNS,KC_TRNS,
-       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
-       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,M_BREW_UPDATE,EMOJI_SHRUG,
-       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           KC_TRNS,       KC_TRNS,
+       KC_TRNS, KC_TRNS,     M_SSH_APP01, KC_TRNS,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01,   KC_TRNS,
+       KC_TRNS, M_SSH_APP02, M_SSH_OPS03, KC_TRNS,     M_SSH_OPS02,           KC_TRNS,
+       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,               M_BREW_UPDATE, EMOJI_SHRUG,
+       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,
                                        RGB_MOD,KC_TRNS,
                                                KC_TRNS,
                                RGB_VAD,RGB_VAI,KC_TRNS,
        // right hand
-       KC_F7,         KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  VRSN,
-       KC_TRNS,       KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, EPRM,
-                      KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       EMOJI_DISFACE, KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                      KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS,       KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, VRSN,
+       KC_TRNS,       KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, EPRM,
+                      M_SSH_HAPPY, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       EMOJI_DISFACE, KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                      KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS,
        RGB_TOG, RGB_SLD,
        KC_TRNS,
        KC_TRNS, RGB_HUD, RGB_HUI
@@ -266,6 +276,116 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap(KC_K);
             unregister_code(KC_LCTRL);
             SEND_STRING("git rebase -i master");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_WEB01:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh web01.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_WEB02:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh web02.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_WEB03:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh web03.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_WEB04:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh web04.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_APP01:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh app01.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_APP02:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh app02.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_OPS01:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh ops01.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_OPS02:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh ops02.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_OPS03:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh ops03.theregister.co.uk");
+            tap(KC_ENT);
+        }
+        return false;
+        break;
+    case M_SSH_HAPPY:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("ssh happy.sitpub.com");
             tap(KC_ENT);
         }
         return false;
