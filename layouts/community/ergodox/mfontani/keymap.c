@@ -14,6 +14,7 @@ enum custom_keycodes {
   RGB_SLD,
   EMOJI_DISFACE,
   EMOJI_SHRUG,
+  M_BREW_UPDATE,
 };
 
 inline void tap(uint16_t keycode) {
@@ -115,13 +116,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * | Esc     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | Version|
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  | EPRM   |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |      | EPRM   |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   #  |   $  |   (  |   )  |   `  |------|           |------| Down |   4  |   5  |   6  |   +  |        |
+ * |         |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   %  |   ^  |   [  |   ]  |   ~  |¯(ツ)¯|           | ಠ_ಠ  |   &  |   1  |   2  |   3  |   \  |        |
+ * |         |      |      |      |      | brew |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      |      |        |
+ * |         |      |      |      |      |update|      |           |      |      |      |      |      |      |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |       |      |      |      |      |                                       |      |    . |   0  |   =  |      |
+ *   |       |      |      |      |      |                                       |      |      |      |      |      |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |Animat|      |       |Toggle|Solid |
@@ -135,19 +137,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [SYMB] = LAYOUT_ergodox(
        // left hand
        KC_ESC, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,
-       KC_TRNS,KC_EXLM,KC_AT,  KC_LCBR,KC_RCBR,KC_PIPE,KC_TRNS,
-       KC_TRNS,KC_HASH,KC_DLR, KC_LPRN,KC_RPRN,KC_GRV,
-       KC_TRNS,KC_PERC,KC_CIRC,KC_LBRC,KC_RBRC,KC_TILD,EMOJI_SHRUG,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,M_BREW_UPDATE,EMOJI_SHRUG,
        KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
                                        RGB_MOD,KC_TRNS,
                                                KC_TRNS,
                                RGB_VAD,RGB_VAI,KC_TRNS,
        // right hand
-       KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  VRSN,
-       KC_TRNS, KC_UP,   KC_7,   KC_8,    KC_9,    KC_ASTR, EPRM,
-                KC_DOWN, KC_4,   KC_5,    KC_6,    KC_PLUS, KC_TRNS,
-       EMOJI_DISFACE,    KC_AMPR,KC_1,    KC_2,    KC_3,    KC_BSLS, KC_TRNS,
-                         KC_TRNS,KC_DOT,  KC_0,    KC_EQL,  KC_TRNS,
+       KC_F7,         KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  VRSN,
+       KC_TRNS,       KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, EPRM,
+                      KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       EMOJI_DISFACE, KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                      KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS,
        RGB_TOG, RGB_SLD,
        KC_TRNS,
        KC_TRNS, RGB_HUD, RGB_HUI
@@ -239,6 +241,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             unregister_code(KC_RSFT);
             process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
             osx_switch_input_layout();
+        }
+        return false;
+        break;
+    case M_BREW_UPDATE:
+        if (record->event.pressed) {
+            register_code(KC_LCTRL);
+            tap(KC_A);
+            tap(KC_K);
+            unregister_code(KC_LCTRL);
+            SEND_STRING("brew update ; brew upgrade ; brew cleanup");
+            tap(KC_ENT);
         }
         return false;
         break;
