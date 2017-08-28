@@ -54,9 +54,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | Left |Right |       | Del  |Ctrl/Esc|
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space| Left |------|       |------| Right  |Enter |
- *                                 |      |      | End  |       | PgDn |        |      |
+ *                                 |      |      | Home |       | PgUp | Space  |      |
+ *                                 | Space| Cmd  |------|       |------| L1     |Enter |
+ *                                 |      |      | End  |       | PgDn | toggle |      |
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTRL,       CTL_T(KC_GRV),KC_QUOT,      KC_LALT, KC_LGUI,
                                                       KC_LEFT,KC_RIGHT,
                                                               KC_HOME,
-                                               KC_SPC,KC_LEFT,KC_END,
+                                               KC_SPC,KC_LGUI,KC_END,
         // right hand
              KC_7,        KC_8,   KC_9,  KC_0,   KC_MINS,KC_EQL,           KC_BSPC,
              KC_BSLS,     KC_Y,   KC_U,  KC_I,   KC_O,   KC_P,             KC_QUOT,
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_UP, KC_DOWN,KC_LBRC,KC_RBRC,          KC_RALT,
              KC_DELT,        CTL_T(KC_ESC),
              KC_PGUP,
-             KC_PGDN,KC_RIGHT,KC_ENT
+             KC_PGDN,LT(MDIA,KC_SPC),KC_ENT
     ),
 /* Keymap 1: Media and mouse keys
  *
