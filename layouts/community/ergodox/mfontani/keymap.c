@@ -14,7 +14,6 @@ enum custom_keycodes {
   RGB_SLD,
   EMOJI_DISFACE,
   EMOJI_SHRUG,
-  M_BREW_UPDATE,
   M_GIT_REBASE_I_MASTER,
   M_SSH_WEB01,
   M_SSH_WEB02,
@@ -134,8 +133,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         | app02| ops03|      | ops02|      |------|           |------|happy |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |      |      |      | brew |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      |      |        |
- * |         |      |      |      |      |update|      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |       |      |      |      |      |                                       |      |      |      |      |      |
  *   `-----------------------------------'                                       `----------------------------------'
@@ -150,10 +149,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           KC_TRNS,       KC_TRNS,
-       KC_TRNS, KC_TRNS,     M_SSH_APP01, KC_TRNS,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01,   KC_TRNS,
+       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           KC_TRNS,     KC_TRNS,
+       KC_TRNS, KC_TRNS,     M_SSH_APP01, KC_TRNS,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01, KC_TRNS,
        KC_TRNS, M_SSH_APP02, M_SSH_OPS03, KC_TRNS,     M_SSH_OPS02,           KC_TRNS,
-       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,               M_BREW_UPDATE, EMOJI_SHRUG,
+       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,               KC_TRNS,     EMOJI_SHRUG,
        KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,
                                        RGB_MOD,KC_TRNS,
                                                KC_TRNS,
@@ -255,17 +254,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             unregister_code(KC_RSFT);
             process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
             osx_switch_input_layout();
-        }
-        return false;
-        break;
-    case M_BREW_UPDATE:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("brew update ; brew upgrade ; brew cleanup");
-            tap(KC_ENT);
         }
         return false;
         break;
