@@ -54,9 +54,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,---------------.
  *                                        | Left |Right |       | Del  |  AltGr |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp | Space  |Enter |
+ *                                 |      |      | Home |       | PgUp |  go to |Enter |
  *                                 | Space| Cmd  |------|       |------| NOCU   |NOCU  |
- *                                 |      |      | End  |       | PgDn | toggle |toggle|
+ *                                 |      |      | End  |       | PgDn | layer  |toggle|
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        KC_UP, KC_DOWN, KC_LEFT, KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
-        KC_PGDN, LT(NOCU,KC_SPC), LT(NOCU,KC_ENT)
+        KC_PGDN, TO(NOCU), LT(NOCU,KC_ENT)
     ),
 /* Keymap 1: "No Cursors" layer
  *
@@ -97,9 +97,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
- *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |      |       |      | go to|      |
+ *                                 |      |      |------|       |------| BASE |      |
+ *                                 |      |      |      |       |      | layer|      |
  *                                 `--------------------'       `----------------------'
  */
 [NOCU] = LAYOUT_ergodox(  // layer 3 : "no cursors" on bottom RHS
@@ -120,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           KC_TRNS, KC_TRNS, KC_LBRC, KC_RBRC, KC_RALT,
         KC_TRNS, KC_TRNS,
         KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS
+        KC_TRNS, TO(BASE), KC_TRNS
     ),
 /* Keymap 2: Media and mouse keys
  *
