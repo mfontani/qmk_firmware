@@ -3,8 +3,8 @@
 #include "action_layer.h"
 #include "version.h"
 
-#define BASE 0 // default layer
-#define CURS 1 // cursors on bottom RHS
+#define BASE 0 // default layer (with cursors on RHS)
+#define NOCU 1 // no cursors on RHS
 #define MDIA 2 // media keys
 #define SYMB 3 // symbols
 
@@ -47,15 +47,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| /SYMB|           |      |------+------+------+------+------+--------|
  * |   `~   |A / MD|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
  * |--------+------+------+------+------+------|  [   |           |  ]   |------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
+ * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | RShift |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCtrl |Ctrl/`|  '"  | Alt  |  Cmd |                                       |  Up  | Down |   [  |   ]  | AltGr|
+ *   |LCtrl |Ctrl/`|  '"  | Alt  |  Cmd |                                       |  Up  | Down | LEFT | DOWN | RIGHT|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
  *                                        | Left |Right |       | Del  |  AltGr |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | Home |       | PgUp | Space  |Enter |
- *                                 | Space| Cmd  |------|       |------| CURS   |CURS  |
+ *                                 | Space| Cmd  |------|       |------| NOCU   |NOCU  |
  *                                 |      |      | End  |       | PgDn | toggle |toggle|
  *                                 `--------------------'       `----------------------'
  */
@@ -75,13 +75,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_7,    KC_8, KC_9,  KC_0,    KC_MINS, KC_EQL,           KC_BSPC,
         KC_BSLS, KC_Y, KC_U,  KC_I,    KC_O,    KC_P,             KC_QUOT,
                  KC_H, KC_J,  KC_K,    KC_L,    LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_RBRC, KC_N, KC_M,  KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,
-                       KC_UP, KC_DOWN, KC_LBRC, KC_RBRC,          KC_RALT,
+        KC_RBRC, KC_N, KC_M,  KC_COMM, KC_DOT,  KC_UP,            KC_RSFT,
+                       KC_UP, KC_DOWN, KC_LEFT, KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
-        KC_PGDN, LT(CURS,KC_SPC), LT(CURS,KC_ENT)
+        KC_PGDN, LT(NOCU,KC_SPC), LT(NOCU,KC_ENT)
     ),
-/* Keymap 1: Cursor layer
+/* Keymap 1: "No Cursors" layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -90,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |  UP  |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |   /  |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |      |      | LEFT | DOWN | RIGHT|
+ *   |      |      |      |      |      |                                       |      |      |   [  |   ]  | AltGr|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
@@ -102,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `----------------------'
  */
-[CURS] = LAYOUT_ergodox(  // layer 3 : cursors on bottom RHS
+[NOCU] = LAYOUT_ergodox(  // layer 3 : "no cursors" on bottom RHS
         // left hand
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -116,8 +116,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_UP,   KC_TRNS,
-                          KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_SLSH, KC_TRNS,
+                          KC_TRNS, KC_TRNS, KC_LBRC, KC_RBRC, KC_RALT,
         KC_TRNS, KC_TRNS,
         KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS
