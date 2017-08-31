@@ -16,6 +16,7 @@ enum custom_keycodes {
   RGB_SLD,
   EMOJI_DISFACE,
   EMOJI_SHRUG,
+  M_HOME,
   M_GIT_REBASE_I_MASTER,
   M_SSH_WEB01,
   M_SSH_WEB02,
@@ -47,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |  \   |   Y  |   U  |   I  |   O  |   P  |   '"   |
  * |--------+------+------+------+------+------| /SYMB|           |      |------+------+------+------+------+--------|
  * |   `~   |A / MD|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
- * |--------+------+------+------+------+------|  [   |           |  ]   |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------|  ~/  |           |  /   |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  |   /    |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |LCtrl |Ctrl/`|   /  | Alt  |  Cmd |                                       |   [  |   ]  | LEFT | DOWN | RIGHT|
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,   KC_1,          KC_2,    KC_3,    KC_4,    KC_5, KC_6,
         KC_TAB,   KC_Q,          KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
         KC_GRV,   LT(MDIA,KC_A), KC_S,    KC_D,    KC_F,    KC_G,
-        KC_LSFT,  KC_Z,          KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,
+        KC_LSFT,  KC_Z,          KC_X,    KC_C,    KC_V,    KC_B, M_HOME,
         KC_LCTRL, CTL_T(KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
                                                       KC_RALT,KC_QUOT,
                                                               KC_HOME,
@@ -76,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_7,    KC_8, KC_9,    KC_0,    KC_MINS, KC_EQL,           KC_BSPC,
         KC_BSLS, KC_Y, KC_U,    KC_I,    KC_O,    KC_P,             KC_QUOT,
                  KC_H, KC_J,    KC_K,    KC_L,    LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_RBRC, KC_N, KC_M,    KC_COMM, KC_DOT,  KC_UP,            KC_SLSH,
+        KC_SLSH, KC_N, KC_M,    KC_COMM, KC_DOT,  KC_UP,            KC_SLSH,
                        KC_LBRC, KC_RBRC, KC_LEFT, KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
@@ -256,6 +257,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             unregister_code(KC_RSFT);
             process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
             osx_switch_input_layout();
+        }
+        return false;
+        break;
+    case M_HOME:
+        if (record->event.pressed) {
+            SEND_STRING("~/");
         }
         return false;
         break;
