@@ -91,16 +91,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |MsLeft|MsDown|MsRght|      |------|           |------| Left | Down |  Up  | Right|      |  Play  |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MSAcc0|MSAcc1|MSAcc2|      |      |           |      |      | Mute | Prev | Next |  Up  |        |
+ * |        |      |MSAcc0|MSAcc1|MSAcc2|      |      |           |      |      |      | Prev | Next |  Up  |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Left | Down | Right|
+ *   |      |      |      | Lclk | Rclk |                                       |      |      | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | WhUP | WhDN |       |      | BACK |
+ *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |      |       | VolUp|      |      |
  *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |      |       | VolDn|      |      |
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
@@ -117,11 +117,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  VRSN,
         _______, _______, _______, _______, _______,  _______, _______,
                  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, KC_MPLY,
-        _______, _______, KC_MUTE, KC_MPRV, KC_MNXT,  KC_UP,   _______,
-                          KC_VOLU, KC_VOLD, KC_RIGHT, KC_DOWN, KC_RIGHT,
-        _______, KC_WBAK,
-        _______,
-        _______, _______, _______
+        _______, _______, _______, KC_MPRV, KC_MNXT,  KC_UP,   _______,
+                          _______, _______, KC_RIGHT, KC_DOWN, KC_RIGHT,
+        KC_MUTE, KC_WBAK,
+        KC_VOLU,
+        KC_VOLD, _______, _______
 ),
 /* Keymap 2: Symbol Layer
  *
