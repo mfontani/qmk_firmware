@@ -7,6 +7,8 @@
 #define MDIA 1 // media keys
 #define SYMB 2 // symbols
 
+#define _______ KC_TRNS
+
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
@@ -104,22 +106,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // MEDIA AND MOUSE
 [MDIA] = LAYOUT_ergodox(
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_ACL0, KC_ACL1, KC_ACL2, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_BTN2,
+        _______, _______, _______, KC_MS_U, _______, _______, _______,
+        _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______,
+        _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+        _______, _______, _______, KC_BTN1, KC_BTN2,
                                                 KC_WH_U, KC_WH_D,
-                                                         KC_TRNS,
-                                       KC_TRNS, KC_TRNS, KC_TRNS,
+                                                         _______,
+                                       _______, _______, _______,
         // right hand
         KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  VRSN,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
-                 KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_TRNS, KC_MPLY,
-        KC_TRNS, KC_TRNS, KC_MUTE, KC_MPRV, KC_MNXT,  KC_UP,   KC_TRNS,
+        _______, _______, _______, _______, _______,  _______, _______,
+                 KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, KC_MPLY,
+        _______, _______, KC_MUTE, KC_MPRV, KC_MNXT,  KC_UP,   _______,
                           KC_VOLU, KC_VOLD, KC_RIGHT, KC_DOWN, KC_RIGHT,
-        KC_TRNS, KC_WBAK,
-        KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS
+        _______, KC_WBAK,
+        _______,
+        _______, _______, _______
 ),
 /* Keymap 2: Symbol Layer
  *
@@ -149,23 +151,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           KC_TRNS,     KC_TRNS,
-       KC_TRNS, KC_TRNS,     M_SSH_APP01, KC_TRNS,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01, KC_TRNS,
-       KC_TRNS, M_SSH_APP02, M_SSH_OPS03, KC_TRNS,     M_SSH_OPS02,           KC_TRNS,
-       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,               KC_TRNS,     EMOJI_SHRUG,
-       KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,
-                                       RGB_MOD,KC_TRNS,
-                                               KC_TRNS,
-                               RGB_VAD,RGB_VAI,KC_TRNS,
+       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           _______,     _______,
+       _______, _______,     M_SSH_APP01, _______,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01, _______,
+       _______, M_SSH_APP02, M_SSH_OPS03, _______,     M_SSH_OPS02,           _______,
+       _______, _______,     _______,     _______,     _______,               _______,     EMOJI_SHRUG,
+       _______, _______,     _______,     _______,     _______,
+                                       RGB_MOD,_______,
+                                               _______,
+                               RGB_VAD,RGB_VAI,_______,
        // right hand
-       KC_TRNS,       KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, VRSN,
-       KC_TRNS,       KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, EPRM,
-                      M_SSH_HAPPY, KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       EMOJI_DISFACE, KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                      KC_TRNS,     KC_TRNS,KC_TRNS, KC_TRNS, KC_TRNS,
+       _______,       _______,     _______,_______, _______, _______, VRSN,
+       _______,       _______,     _______,_______, _______, _______, EPRM,
+                      M_SSH_HAPPY, _______,_______, _______, _______, _______,
+       EMOJI_DISFACE, _______,     _______,_______, _______, _______, _______,
+                      _______,     _______,_______, _______, _______,
        RGB_TOG, RGB_SLD,
-       KC_TRNS,
-       KC_TRNS, RGB_HUD, RGB_HUI
+       _______,
+       _______, RGB_HUD, RGB_HUI
 ),
 };
 
