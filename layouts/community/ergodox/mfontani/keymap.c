@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|  ~/  |           |  /   |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCtrl |Ctrl/`|   /  | Alt  |  Cmd |                                       |[ AltG|] AltG| LEFT | DOWN | RIGHT|
+ *   |LCtrl |SYMB/`|   /  | Alt  |  Cmd |                                       |[ AltG|] AltG| LEFT | DOWN | RIGHT|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
  *                                        | AltGr|  '"  |       | Del  |  AltGr |
@@ -65,11 +65,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_ESC,         KC_1,          KC_2,    KC_3,    KC_4,    KC_5, KC_6,
-        KC_TAB,         KC_Q,          KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
-        LCAG_T(KC_GRV), KC_A,          KC_S,    KC_D,    KC_F,    KC_G,
-        KC_LSFT,        KC_Z,          KC_X,    KC_C,    KC_V,    KC_B, M_HOME,
-        KC_LCTRL,       CTL_T(KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
+        KC_ESC,         KC_1,            KC_2,    KC_3,    KC_4,    KC_5, KC_6,
+        KC_TAB,         KC_Q,            KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
+        LCAG_T(KC_GRV), KC_A,            KC_S,    KC_D,    KC_F,    KC_G,
+        KC_LSFT,        KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, M_HOME,
+        KC_LCTRL,       LT(SYMB,KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
                                                       KC_RALT,KC_QUOT,
                                                               KC_HOME,
                                                KC_SPC,KC_LGUI,KC_END,
@@ -136,10 +136,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         | app02| ops03|      | ops02|      |------|           |------|happy |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |      |      |      |      |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      |      |        |
- * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |¯(ツ)¯|           | ಠ_ಠ  |      |      |      |      | Page |        |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |  UP  |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |       |      |      |      |      |                                       |      |      |      |      |      |
+ *   |       |      |      |      |      |                                       |      |      | HOME |PageDN|  END |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |Animat|      |       |Toggle|Solid |
@@ -164,8 +164,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______,       _______,     _______,_______, _______, _______, VRSN,
        _______,       _______,     _______,_______, _______, _______, EPRM,
                       M_SSH_HAPPY, _______,_______, _______, _______, _______,
-       EMOJI_DISFACE, _______,     _______,_______, _______, _______, _______,
-                      _______,     _______,_______, _______, _______,
+       EMOJI_DISFACE, _______,     _______,_______, _______, KC_PGUP, _______,
+                      _______,     _______,KC_HOME, KC_PGDN, KC_END,
        RGB_TOG, RGB_SLD,
        _______,
        _______, RGB_HUD, RGB_HUI
