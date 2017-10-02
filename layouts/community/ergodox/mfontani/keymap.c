@@ -11,24 +11,23 @@
 #define _______ KC_TRNS
 
 enum custom_keycodes {
-  PLACEHOLDER = SAFE_RANGE, // can always be here
-  EPRM,
-  VRSN,
-  RGB_SLD,
-  EMOJI_DISFACE,
-  EMOJI_SHRUG,
-  M_HOME,
-  M_GIT_REBASE_I_MASTER,
-  M_SSH_WEB01,
-  M_SSH_WEB02,
-  M_SSH_WEB03,
-  M_SSH_WEB04,
-  M_SSH_OPS01,
-  M_SSH_OPS02,
-  M_SSH_OPS03,
-  M_SSH_APP01,
-  M_SSH_APP02,
-  M_SSH_HAPPY,
+    PLACEHOLDER = SAFE_RANGE, // can always be here
+    EPRM,
+    VRSN,
+    RGB_SLD,
+    EMOJI_DISFACE,
+    EMOJI_SHRUG,
+    M_HOME,
+    M_SSH_WEB01,
+    M_SSH_WEB02,
+    M_SSH_WEB03,
+    M_SSH_WEB04,
+    M_SSH_OPS01,
+    M_SSH_OPS02,
+    M_SSH_OPS03,
+    M_SSH_APP01,
+    M_SSH_APP02,
+    M_SSH_HAPPY,
 };
 
 inline void tap(uint16_t keycode) {
@@ -46,10 +45,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   7  |   8  |   9  |   0  |   -  |   =  |Backspac|
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |  \   |   Y  |   U  |   I  |   O  |   P  |   '"   |
- * |--------+------+------+------+------+------| /SYMB|           |      |------+------+------+------+------+--------|
+ * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
+ * |--------+------+------+------+------+------| SYMB |           |      |------+------+------+------+------+--------|
  * | CAG `~ |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
- * |--------+------+------+------+------+------|  ~/  |           |  /   |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------|  ~/  |           |   /  |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |LCtrl |SYMB/`|   /  | Alt  |  Cmd |                                       |[ AltG|] AltG| LEFT | DOWN | RIGHT|
@@ -130,10 +129,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * | Esc     | web01| web02| web03| web04|      |      |           |      |      |      |      |      |      | DELETE |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      | app01|      |git   | ops01|      |           | VERS |      |      |      |      |      |        |
- * |         |      |      |      |rebase|      |      |           |      |      |      |      |      |      |        |
- * |         |      |      |      |  -i  |      |      |           |      |      |      |      |      |      |        |
- * |         |      |      |      |master|      |      |           |      |      |      |      |      |      |        |
+ * |         |      | app01|      |      | ops01|      |           | VERS |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         | app02| ops03|      | ops02|      |------|           |------|happy |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -153,10 +152,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04,           _______,     _______,
-       _______, _______,     M_SSH_APP01, _______,     M_GIT_REBASE_I_MASTER, M_SSH_OPS01, _______,
-       _______, M_SSH_APP02, M_SSH_OPS03, _______,     M_SSH_OPS02,           _______,
-       _______, _______,     _______,     _______,     _______,               _______,     EMOJI_SHRUG,
+       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04, _______,     _______,
+       _______, _______,     M_SSH_APP01, _______,     _______,     M_SSH_OPS01, _______,
+       _______, M_SSH_APP02, M_SSH_OPS03, _______,     M_SSH_OPS02, _______,
+       _______, _______,     _______,     _______,     _______,     _______,     EMOJI_SHRUG,
        _______, _______,     _______,     _______,     _______,
                                                 KC_WH_U, KC_WH_D,
                                                          _______,
@@ -236,206 +235,194 @@ void osx_switch_input_layout(void) {
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-  // MACRODOWN only works in this function
-      switch(id) {
+    // MACRODOWN only works in this function
+    switch(id) {
         case 0:
-        if (record->event.pressed) {
-          SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        }
-        break;
+            if (record->event.pressed) {
+                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            }
+            break;
         case 1:
-        if (record->event.pressed) { // For resetting EEPROM
-          eeconfig_init();
-        }
-        break;
-      }
+            if (record->event.pressed) { // For resetting EEPROM
+                eeconfig_init();
+            }
+            break;
+    }
     return MACRO_NONE;
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    // dynamically generate these.
-    case EPRM:
-      if (record->event.pressed) {
-        eeconfig_init();
-      }
-      return false;
-      break;
-    case VRSN:
-      if (record->event.pressed) {
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-      }
-      return false;
-      break;
-    case RGB_SLD:
-      if (record->event.pressed) {
-        #ifdef RGBLIGHT_ENABLE
-          rgblight_mode(1);
-        #endif
-      }
-      return false;
-      break;
-    case EMOJI_SHRUG: // ¯\_(ツ)_/¯
-        if (record->event.pressed) {
-            osx_switch_input_layout();
-            process_unicode((0x00AF|QK_UNICODE), record);   // Hand
-            tap(KC_BSLS);                                   // Arm
-            register_code(KC_RSFT);
-            tap(KC_UNDS);                                   // Arm
-            tap(KC_LPRN);                                   // Head
-            unregister_code(KC_RSFT);
-            process_unicode((0x30C4|QK_UNICODE), record);   // Face
-            register_code(KC_RSFT);
-            tap(KC_RPRN);                                   // Head
-            tap(KC_UNDS);                                   // Arm
-            unregister_code(KC_RSFT);
-            tap(KC_SLSH);                                   // Arm
-            process_unicode((0x00AF|QK_UNICODE), record);   // Hand
-            osx_switch_input_layout();
-        }
-      return false;
-      break;
-    case EMOJI_DISFACE: // ಠ_ಠ
-        if(record->event.pressed){
-            osx_switch_input_layout();
-            process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
-            register_code(KC_RSFT);
-            tap(KC_MINS);
-            unregister_code(KC_RSFT);
-            process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
-            osx_switch_input_layout();
-        }
-        return false;
-        break;
-    case M_HOME:
-        if (record->event.pressed) {
-            SEND_STRING("~/");
-        }
-        return false;
-        break;
-    case M_GIT_REBASE_I_MASTER:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("git rebase -i master");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_WEB01:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh web01.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_WEB02:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh web02.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_WEB03:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh web03.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_WEB04:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh web04.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_APP01:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh app01.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_APP02:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh app02.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_OPS01:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh ops01.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_OPS02:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh ops02.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_OPS03:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh ops03.theregister.co.uk");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-    case M_SSH_HAPPY:
-        if (record->event.pressed) {
-            register_code(KC_LCTRL);
-            tap(KC_A);
-            tap(KC_K);
-            unregister_code(KC_LCTRL);
-            SEND_STRING("ssh happy.sitpub.com");
-            tap(KC_ENT);
-        }
-        return false;
-        break;
-  }
-  return true;
+    switch (keycode) {
+        case EPRM:
+            if (record->event.pressed) {
+                eeconfig_init();
+            }
+            return false;
+            break;
+        case VRSN:
+            if (record->event.pressed) {
+                SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            }
+            return false;
+            break;
+        case RGB_SLD:
+            if (record->event.pressed) {
+                #ifdef RGBLIGHT_ENABLE
+                rgblight_mode(1);
+                #endif
+            }
+            return false;
+            break;
+        case EMOJI_SHRUG: // ¯\_(ツ)_/¯
+            if (record->event.pressed) {
+                osx_switch_input_layout();
+                process_unicode((0x00AF|QK_UNICODE), record);   // Hand
+                tap(KC_BSLS);                                   // Arm
+                register_code(KC_RSFT);
+                tap(KC_UNDS);                                   // Arm
+                tap(KC_LPRN);                                   // Head
+                unregister_code(KC_RSFT);
+                process_unicode((0x30C4|QK_UNICODE), record);   // Face
+                register_code(KC_RSFT);
+                tap(KC_RPRN);                                   // Head
+                tap(KC_UNDS);                                   // Arm
+                unregister_code(KC_RSFT);
+                tap(KC_SLSH);                                   // Arm
+                process_unicode((0x00AF|QK_UNICODE), record);   // Hand
+                osx_switch_input_layout();
+            }
+            return false;
+            break;
+        case EMOJI_DISFACE: // ಠ_ಠ
+            if(record->event.pressed){
+                osx_switch_input_layout();
+                process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
+                register_code(KC_RSFT);
+                tap(KC_MINS);
+                unregister_code(KC_RSFT);
+                process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
+                osx_switch_input_layout();
+            }
+            return false;
+            break;
+        case M_HOME:
+            if (record->event.pressed) {
+                SEND_STRING("~/");
+            }
+            return false;
+            break;
+        case M_SSH_WEB01:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh web01.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_WEB02:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh web02.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_WEB03:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh web03.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_WEB04:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh web04.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_APP01:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh app01.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_APP02:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh app02.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_OPS01:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh ops01.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_OPS02:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh ops02.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_OPS03:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh ops03.theregister.co.uk");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+        case M_SSH_HAPPY:
+            if (record->event.pressed) {
+                register_code(KC_LCTRL);
+                tap(KC_A);
+                tap(KC_K);
+                unregister_code(KC_LCTRL);
+                SEND_STRING("ssh happy.sitpub.com");
+                tap(KC_ENT);
+            }
+            return false;
+            break;
+    }
+    return true;
 }
 
 // Runs just one time when the keyboard initializes.
@@ -445,24 +432,24 @@ void matrix_init_user(void) {
     set_unicode_input_mode(UC_OSX_RALT); // Mac OSX using right alt key
     //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
     //set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
-  ergodox_led_all_on();
+    ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
     rgblight_mode(1);
     rgblight_setrgb(0xff,0xff,0xff);
 #endif
-  for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
-    ergodox_led_all_set(i);
-    wait_ms(5);
-  }
-  wait_ms(250);
-  for (int i = LED_BRIGHTNESS_LO; i > 0; i--) {
-    ergodox_led_all_set(i);
-    wait_ms(10);
-  }
-  ergodox_led_all_off();
-  has_layer_changed = true;
-};
+    for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
+        ergodox_led_all_set(i);
+        wait_ms(5);
+    }
+    wait_ms(250);
+    for (int i = LED_BRIGHTNESS_LO; i > 0; i--) {
+        ergodox_led_all_set(i);
+        wait_ms(10);
+    }
+    ergodox_led_all_off();
+    has_layer_changed = true;
+}
 
 
 // Runs constantly in the background, in a loop.
@@ -514,4 +501,4 @@ void matrix_scan_user(void) {
         has_layer_changed = true;
         current_layer = layer;
     }
-};
+}
