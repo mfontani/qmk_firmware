@@ -251,6 +251,16 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     return MACRO_NONE;
 };
 
+#define mfontani_send_ssh(record, host)  \
+    if (record->event.pressed) { \
+        register_code(KC_LCTRL); \
+        tap(KC_A); \
+        tap(KC_K); \
+        unregister_code(KC_LCTRL); \
+        SEND_STRING("ssh " host); \
+        tap(KC_ENT); \
+    }
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case EPRM:
@@ -312,113 +322,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
             break;
         case M_SSH_WEB01:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh web01.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"web01.theregister.co.uk");
             return false;
             break;
         case M_SSH_WEB02:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh web02.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"web02.theregister.co.uk");
             return false;
             break;
         case M_SSH_WEB03:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh web03.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"web03.theregister.co.uk");
             return false;
             break;
         case M_SSH_WEB04:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh web04.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"web04.theregister.co.uk");
             return false;
             break;
         case M_SSH_APP01:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh app01.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"app01.theregister.co.uk");
             return false;
             break;
         case M_SSH_APP02:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh app02.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"app02.theregister.co.uk");
             return false;
             break;
         case M_SSH_OPS01:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh ops01.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"ops01.theregister.co.uk");
             return false;
             break;
         case M_SSH_OPS02:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh ops02.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"ops02.theregister.co.uk");
             return false;
             break;
         case M_SSH_OPS03:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh ops03.theregister.co.uk");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"ops03.theregister.co.uk");
             return false;
             break;
         case M_SSH_HAPPY:
-            if (record->event.pressed) {
-                register_code(KC_LCTRL);
-                tap(KC_A);
-                tap(KC_K);
-                unregister_code(KC_LCTRL);
-                SEND_STRING("ssh happy.sitpub.com");
-                tap(KC_ENT);
-            }
+            mfontani_send_ssh(record,"happy.sitpub.com");
             return false;
             break;
     }
