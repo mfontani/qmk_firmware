@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        | AltGr|  '"  |       | Del  |  AltGr |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space| Cmd  |------|       |------| Space  | Enter|
+ *                                 | Space| Cmd  |------|       |------|  Enter | Space|
  *                                 |      |      | End  |       | PgDn |        |      |
  *                                 `--------------------'       `----------------------'
  */
@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        ALGR_T(KC_LBRC), ALGR_T(KC_RBRC), KC_LEFT, KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
-        KC_PGDN, KC_SPC, KC_ENT
+        KC_PGDN, KC_ENT, KC_SPC
     ),
 /* Keymap 1: Media and mouse keys
  *
