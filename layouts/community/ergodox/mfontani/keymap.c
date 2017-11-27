@@ -99,9 +99,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       | VolUp|      |      |
+ *                                 |      |      | BriUP|       | VolUp|      |      |
  *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       | VolDn|      |      |
+ *                                 |      |      | BriDN|       | VolDn|      |      |
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
@@ -112,8 +112,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
         _______, _______, _______, KC_BTN1, KC_BTN2,
                                                 KC_WH_U, KC_WH_D,
-                                                         _______,
-                                       _______, _______, _______,
+                                                         KC_PAUS,
+                                       _______, _______, KC_SLCK,
         // right hand
         KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  VRSN,
         _______, _______, _______, _______, _______,  _______, _______,
@@ -144,9 +144,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       | VolUp|      |      |
+ *                                 |      |      | BriUP|       | VolUp|      |      |
  *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       | VolDn|      |      |
+ *                                 |      |      | BriDN|       | VolDn|      |      |
  *                                 `--------------------'       `--------------------'
  */
 // SYMBOLS
@@ -158,8 +158,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, _______,     _______,     _______,     _______,     _______,     EMOJI_SHRUG,
        _______, _______,     _______,     _______,     _______,
                                                 KC_WH_U, KC_WH_D,
-                                                         _______,
-                                       _______, _______, _______,
+                                                         KC_PAUS,
+                                       _______, _______, KC_SLCK,
        // right hand
        _______,       _______,     _______,_______, _______, _______, KC_DELT,
        VRSN,          _______,     _______,_______, _______, _______, _______,
