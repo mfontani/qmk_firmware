@@ -14,6 +14,7 @@ enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     EPRM,
     VRSN,
+    TOGGLE_BACK_LIGHT,
     RGB_SLD,
     EMOJI_DISFACE,
     EMOJI_SHRUG,
@@ -37,6 +38,7 @@ inline void tap(uint16_t keycode) {
 
 // custom layer change change colour
 bool has_layer_changed = false;
+bool want_light_on     = false;
 static uint8_t current_layer;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -99,9 +101,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      | BriUP|       | VolUp|      |      |
- *                                 |      |      |------|       |------|      |      |
- *                                 |      |      | BriDN|       | VolDn|      |      |
+ *                                 |      |      | BriUP|       | VolUp|      |TOGGLE|
+ *                                 |      |      |------|       |------|      | BACK |
+ *                                 |      |      | BriDN|       | VolDn|      | LIGHT|
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
@@ -122,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, KC_RIGHT, KC_DOWN, KC_RIGHT,
         KC_MUTE, KC_WBAK,
         KC_VOLU,
-        KC_VOLD, _______, _______
+        KC_VOLD, _______, TOGGLE_BACK_LIGHT
 ),
 /* Keymap 2: Symbol Layer
  *
@@ -272,6 +274,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case VRSN:
             if (record->event.pressed) {
                 SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            }
+            return false;
+            break;
+        case TOGGLE_BACK_LIGHT:
+            if (record->event.pressed) {
+                want_light_on = !want_light_on;
             }
             return false;
             break;
@@ -430,7 +438,11 @@ void matrix_scan_user(void) {
             // none
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_setrgb(0x00,0x00,0x00);
+                if (want_light_on) {
+                    rgblight_setrgb(0x30,0x30,0x50);
+                } else {
+                    rgblight_setrgb(0x00,0x00,0x00);
+                }
             }
             #endif
             break;
