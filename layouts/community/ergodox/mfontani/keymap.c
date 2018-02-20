@@ -3,6 +3,11 @@
 #include "action_layer.h"
 #include "version.h"
 
+#ifdef LEADER_TIMEOUT
+#undef LEADER_TIMEOUT
+#endif
+#define LEADER_TIMEOUT 300
+
 #define BASE 0 // default layer
 #define MDIA 1 // media keys
 #define SYMB 2 // symbols
@@ -50,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
  * |--------+------+------+------+------+------| SYMB |           |      |------+------+------+------+------+--------|
  * | CAG `~ |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
- * |--------+------+------+------+------+------|  ~/  |           |   /  |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------|  ~/  |           | LEAD |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |LCtrl |SYMB/`|   /  | Alt  |  Cmd |                                       |[ AltG|] AltG| LEFT | DOWN | RIGHT|
@@ -79,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_7,    KC_8, KC_9,            KC_0,            KC_MINS, KC_EQL,           KC_BSPC,
         KC_BSLS, KC_Y, KC_U,            KC_I,            KC_O,    KC_P,             KC_QUOT,
                  KC_H, KC_J,            KC_K,            KC_L,    LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_SLSH, KC_N, KC_M,            KC_COMM,         KC_DOT,  KC_UP,            SFT_T(KC_SLSH),
+        KC_LEAD, KC_N, KC_M,            KC_COMM,         KC_DOT,  KC_UP,            SFT_T(KC_SLSH),
                        ALGR_T(KC_LBRC), ALGR_T(KC_RBRC), KC_LEFT, KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
@@ -401,6 +406,7 @@ void matrix_init_user(void) {
 
 
 // Runs constantly in the background, in a loop.
+LEADER_EXTERNS();
 void matrix_scan_user(void) {
 
     uint8_t layer = biton32(layer_state);
@@ -452,5 +458,44 @@ void matrix_scan_user(void) {
     } else {
         has_layer_changed = true;
         current_layer = layer;
+    }
+
+    LEADER_DICTIONARY()
+    {
+        leading = false;
+        leader_end();
+
+        // Leader V -> Version
+        SEQ_ONE_KEY (KC_V) {
+            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+        }
+        // Leader B -> CTRL+B for tmux
+        SEQ_ONE_KEY(KC_B)
+        {
+            register_code(KC_LCTRL);
+            tap(KC_B);
+            unregister_code(KC_LCTRL);
+        }
+        // Leader S -> CTRL+B + S for tmux switch sessions
+        SEQ_ONE_KEY(KC_S)
+        {
+            register_code(KC_LCTRL);
+            tap(KC_B);
+            unregister_code(KC_LCTRL);
+            tap(KC_S);
+        }
+        // Leader R -> a few random Base64 bytes
+        SEQ_ONE_KEY(KC_R)
+        {
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+            tap_random_base64();
+        }
     }
 }
