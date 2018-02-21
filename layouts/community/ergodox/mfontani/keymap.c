@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include QMK_KEYBOARD_H
 #include "debug.h"
 #include "action_layer.h"
@@ -240,26 +241,14 @@ void osx_switch_input_layout(void) {
     unregister_code(KC_LGUI);
 }
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    // MACRODOWN only works in this function
-    switch(id) {
-        case 0:
-            if (record->event.pressed) {
-                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-            }
-            break;
-        case 1:
-            if (record->event.pressed) { // For resetting EEPROM
-                eeconfig_init();
-            }
-            break;
-    }
+// old way with M(...); unused.
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 };
 
 #define mfontani_send_ssh(record, host)  \
     if (record->event.pressed) { \
+        uprintf("process_record_user - ssh " host "\n"); \
         register_code(KC_LCTRL); \
         tap(KC_A); \
         tap(KC_K); \
@@ -272,24 +261,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case EPRM:
             if (record->event.pressed) {
+                uprintf("process_record_user - EPRM\n");
                 eeconfig_init();
             }
             return false;
             break;
         case VRSN:
             if (record->event.pressed) {
+                uprintf("process_record_user - VRSN\n");
                 SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
             }
             return false;
             break;
         case TOGGLE_BACK_LIGHT:
             if (record->event.pressed) {
+                uprintf("process_record_user - TOGGLE_BACK_LIGHT\n");
                 want_light_on = !want_light_on;
             }
             return false;
             break;
         case RGB_SLD:
             if (record->event.pressed) {
+                uprintf("process_record_user - RGB_SLD\n");
                 #ifdef RGBLIGHT_ENABLE
                 rgblight_mode(1);
                 #endif
@@ -298,6 +291,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case EMOJI_SHRUG: // ¯\_(ツ)_/¯
             if (record->event.pressed) {
+                uprintf("process_record_user - EMOJI_SHRUG\n");
                 osx_switch_input_layout();
                 process_unicode((0x00AF|QK_UNICODE), record);   // Hand
                 tap(KC_BSLS);                                   // Arm
@@ -318,6 +312,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case EMOJI_DISFACE: // ಠ_ಠ
             if(record->event.pressed){
+                uprintf("process_record_user - EMOJI_DISFACE\n");
                 osx_switch_input_layout();
                 process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
                 register_code(KC_RSFT);
@@ -330,6 +325,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case M_HOME:
             if (record->event.pressed) {
+                uprintf("process_record_user - M_HOME\n");
                 SEND_STRING("~/");
             }
             return false;
@@ -467,11 +463,13 @@ void matrix_scan_user(void) {
 
         // Leader V -> Version
         SEQ_ONE_KEY (KC_V) {
+            uprintf("LEADER - V - VERSION\n");
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
         }
         // Leader B -> CTRL+B for tmux
         SEQ_ONE_KEY(KC_B)
         {
+            uprintf("LEADER - B - CTRL+B\n");
             register_code(KC_LCTRL);
             tap(KC_B);
             unregister_code(KC_LCTRL);
@@ -479,6 +477,7 @@ void matrix_scan_user(void) {
         // Leader S -> CTRL+B + S for tmux switch sessions
         SEQ_ONE_KEY(KC_S)
         {
+            uprintf("LEADER - S - CTRL+B S\n");
             register_code(KC_LCTRL);
             tap(KC_B);
             unregister_code(KC_LCTRL);
@@ -487,6 +486,7 @@ void matrix_scan_user(void) {
         // Leader R -> a few random Base64 bytes
         SEQ_ONE_KEY(KC_R)
         {
+            uprintf("LEADER - R - RANDOM BASE64\n");
             tap_random_base64();
             tap_random_base64();
             tap_random_base64();
