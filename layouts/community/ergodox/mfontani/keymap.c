@@ -497,5 +497,23 @@ void matrix_scan_user(void) {
             tap_random_base64();
             tap_random_base64();
         }
+        // Leader . -> …
+        SEQ_ONE_KEY(KC_DOT)
+        {
+            uprintf("LEADER - . - dot dot dot\n");
+            register_code(KC_RALT);
+            tap(KC_SCLN);
+            unregister_code(KC_RALT);
+        }
+        // Not really working, possibly because KC_SCLN does also "MEDIA" layer
+        // switch on my keyboard.
+        // Leader ; -> …
+        SEQ_ONE_KEY(KC_SCLN)
+        {
+            uprintf("LEADER - ; - dot dot dot\n");
+            register_code(KC_RALT);
+            tap(KC_SCLN);
+            unregister_code(KC_RALT);
+        }
     }
 }
