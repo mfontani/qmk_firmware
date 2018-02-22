@@ -24,7 +24,6 @@ enum custom_keycodes {
     RGB_SLD,
     EMOJI_DISFACE,
     EMOJI_SHRUG,
-    M_HOME,
     M_SSH_WEB01,
     M_SSH_WEB02,
     M_SSH_WEB03,
@@ -56,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
  * |--------+------+------+------+------+------| SYMB |           |  CAG |------+------+------+------+------+--------|
  * |  `~    |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
- * |--------+------+------+------+------+------|  ~/  |           | LEAD |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------| LEAD |           | LEAD |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |LCtrl |SYMB/`|   /  | Alt  |  Cmd |                                       |[ AltG|] AltG| LEFT | DOWN | RIGHT|
@@ -76,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,   KC_1,            KC_2,    KC_3,    KC_4,    KC_5, KC_6,
         KC_TAB,   KC_Q,            KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
         KC_GRV,   KC_A,            KC_S,    KC_D,    KC_F,    KC_G,
-        KC_LSFT,  KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, M_HOME,
+        KC_LSFT,  KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, KC_LEAD,
         KC_LCTRL, LT(SYMB,KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
                                                       KC_RALT,KC_QUOT,
                                                               KC_HOME,
@@ -320,13 +319,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_RSFT);
                 process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
                 osx_switch_input_layout();
-            }
-            return false;
-            break;
-        case M_HOME:
-            if (record->event.pressed) {
-                uprintf("process_record_user - M_HOME\n");
-                SEND_STRING("~/");
             }
             return false;
             break;
