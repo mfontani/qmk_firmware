@@ -497,6 +497,24 @@ void matrix_scan_user(void) {
             tap_random_base64();
             tap_random_base64();
         }
+        // Leader ` -> ~/
+        SEQ_ONE_KEY(KC_GRV)
+        {
+            uprintf("LEADER - ` - ~/\n");
+            register_code(KC_RSFT);
+            tap(KC_GRV);
+            unregister_code(KC_RSFT);
+            tap(KC_SLSH);
+        }
+        // Leader h -> ~/
+        SEQ_ONE_KEY(KC_H)
+        {
+            uprintf("LEADER - h - ~/\n");
+            register_code(KC_RSFT);
+            tap(KC_GRV);
+            unregister_code(KC_RSFT);
+            tap(KC_SLSH);
+        }
         // Leader . -> …
         SEQ_ONE_KEY(KC_DOT)
         {
