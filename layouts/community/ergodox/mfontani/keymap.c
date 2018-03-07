@@ -397,10 +397,23 @@ void matrix_init_user(void) {
     has_layer_changed = true;
 }
 
+// tap dance for minus to tilde or home
+void dance_tilde_home(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        tap(KC_MINS);
+    }
+    else if (state->count == 2) {
+        tap(KC_TILDE);
+    }
+    else if (state->count == 3) {
+        SEND_STRING("~/");
+    }
+}
+
 // tap dances
 qk_tap_dance_action_t tap_dance_actions[] = {
-    // - - to get ~
-    [CT_MINSTILDE] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_TILDE)
+    // -- to get ~ or --- to get ~/
+    [CT_MINSTILDE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_tilde_home, NULL)
 };
 
 // Runs constantly in the background, in a loop.
