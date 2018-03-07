@@ -7,7 +7,7 @@
 #ifdef LEADER_TIMEOUT
 #undef LEADER_TIMEOUT
 #endif
-#define LEADER_TIMEOUT 500
+#define LEADER_TIMEOUT 300
 
 #define BASE 0 // default layer
 #define MDIA 1 // media keys
