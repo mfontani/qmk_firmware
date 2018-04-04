@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
  * |--------+------+------+------+------+------| SYMB |           |  CAG |------+------+------+------+------+--------|
- * |  `~    |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
+ * | `~ Ctrl|   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / MD|Ent/Cmd |
  * |--------+------+------+------+------+------| LEAD |           | LEAD |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -77,11 +77,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_ESC,   KC_1,            KC_2,    KC_3,    KC_4,    KC_5, KC_6,
-        KC_TAB,   KC_Q,            KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
-        KC_GRV,   KC_A,            KC_S,    KC_D,    KC_F,    KC_G,
-        KC_LSFT,  KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, KC_LEAD,
-        KC_LCTRL, LT(SYMB,KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
+        KC_ESC,        KC_1,            KC_2,    KC_3,    KC_4,    KC_5, KC_6,
+        KC_TAB,        KC_Q,            KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
+        CTL_T(KC_GRV), KC_A,            KC_S,    KC_D,    KC_F,    KC_G,
+        KC_LSFT,       KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, KC_LEAD,
+        KC_LCTRL,      LT(SYMB,KC_GRV), KC_SLSH, KC_LALT, KC_LGUI,
                                                       KC_RALT,KC_QUOT,
                                                               KC_HOME,
                                                KC_SPC,KC_BSPC,KC_END,
@@ -403,7 +403,7 @@ void dance_tilde_home(qk_tap_dance_state_t *state, void *user_data) {
         tap(KC_MINS);
     }
     else if (state->count == 2) {
-        tap(KC_TILDE);
+        SEND_STRING("~");
     }
     else if (state->count == 3) {
         SEND_STRING("~/");
