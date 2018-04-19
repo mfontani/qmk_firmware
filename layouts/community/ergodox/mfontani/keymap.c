@@ -481,6 +481,15 @@ void matrix_scan_user(void) {
             uprintf("LEADER - V - VERSION\n");
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
         }
+        // Leader C -> CTRL+B C for tmux
+        SEQ_ONE_KEY(KC_C)
+        {
+            uprintf("LEADER - B - CTRL+B C\n");
+            register_code(KC_LCTRL);
+            tap(KC_B);
+            unregister_code(KC_LCTRL);
+            tap(KC_C);
+        }
         // Leader B -> CTRL+B for tmux
         SEQ_ONE_KEY(KC_B)
         {
