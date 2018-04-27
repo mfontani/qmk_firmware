@@ -55,6 +55,7 @@ inline void tap(uint16_t keycode) {
 bool has_layer_changed = false;
 bool want_light_on     = false;
 bool pressed_meh       = false;
+bool was_leading       = false;
 static uint8_t current_layer;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -460,54 +461,20 @@ void matrix_scan_user(void) {
         pressed_meh = false;
     }
 
-    switch (layer) {
-        case 1:
-            // ergodox_right_led_1_on();
+    if (leading) {
+        if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                rgblight_setrgb(0xff,0x00,0x00);
-            }
+            rgblight_setrgb(0xd0,0x60,0x10);
+            // rgblight_effect_knight(50);
+            // rgblight_mode(14);
             #endif
-            break;
-        case 2:
-            // ergodox_right_led_2_on();
-            #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                rgblight_setrgb(0x00,0xff,0x00);
-            }
-            #endif
-            break;
-        case 3:
-            // ergodox_right_led_3_on();
-            #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                rgblight_setrgb(0x00,0x00,0xff);
-            }
-            #endif
-            break;
-        default:
-            // none
-            #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                if (want_light_on) {
-                    rgblight_setrgb(0x30,0x30,0x50);
-                } else {
-                    rgblight_setrgb(0x00,0x00,0x00);
-                }
-            }
-            #endif
-            break;
+            was_leading = true;
+        }
     }
-    if (current_layer == layer) {
-        has_layer_changed = false;
-    } else {
-        has_layer_changed = true;
-        current_layer = layer;
-    }
-
     LEADER_DICTIONARY()
     {
-        leading = false;
+        leading     = false;
+        was_leading = false;
         leader_end();
 
         // Leader V -> Version
@@ -591,5 +558,55 @@ void matrix_scan_user(void) {
             tap(KC_SCLN);
             unregister_code(KC_RALT);
         }
+
+        has_layer_changed = true;
     }
+
+    if (leading || was_leading) return;
+
+    switch (layer) {
+        case 1:
+            // ergodox_right_led_1_on();
+            #ifdef RGBLIGHT_ENABLE
+            if (has_layer_changed) {
+                rgblight_setrgb(0xff,0x00,0x00);
+            }
+            #endif
+            break;
+        case 2:
+            // ergodox_right_led_2_on();
+            #ifdef RGBLIGHT_ENABLE
+            if (has_layer_changed) {
+                rgblight_setrgb(0x00,0xff,0x00);
+            }
+            #endif
+            break;
+        case 3:
+            // ergodox_right_led_3_on();
+            #ifdef RGBLIGHT_ENABLE
+            if (has_layer_changed) {
+                rgblight_setrgb(0x00,0x00,0xff);
+            }
+            #endif
+            break;
+        default:
+            // none
+            #ifdef RGBLIGHT_ENABLE
+            if (has_layer_changed) {
+                if (want_light_on) {
+                    rgblight_setrgb(0x30,0x30,0x50);
+                } else {
+                    rgblight_setrgb(0x00,0x00,0x00);
+                }
+            }
+            #endif
+            break;
+    }
+    if (current_layer == layer) {
+        has_layer_changed = false;
+    } else {
+        has_layer_changed = true;
+        current_layer = layer;
+    }
+
 }
