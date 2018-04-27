@@ -54,6 +54,7 @@ inline void tap(uint16_t keycode) {
 // custom layer change change colour
 bool has_layer_changed = false;
 bool want_light_on     = false;
+bool pressed_meh       = false;
 static uint8_t current_layer;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -449,6 +450,14 @@ void matrix_scan_user(void) {
     if (modifiders & MODS_ALT_MASK || one_shot & MODS_ALT_MASK) {
       ergodox_right_led_3_on();
       ergodox_right_led_3_set( 10 );
+    }
+    // That said, the MEH key should also show the underglow.
+    if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
+        rgblight_setrgb(0xd0,0x30,0xd0);
+        pressed_meh = true;
+    } else if (pressed_meh) { // reset underglow color on unpress
+        has_layer_changed = true;
+        pressed_meh = false;
     }
 
     switch (layer) {
