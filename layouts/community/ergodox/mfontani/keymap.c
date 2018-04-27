@@ -455,6 +455,7 @@ void matrix_scan_user(void) {
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
         rgblight_setrgb(0xd0,0x30,0xd0);
+        rgblight_setrgb(0xd0,0x30,0xd0);
         pressed_meh = true;
     } else if (pressed_meh) { // reset underglow color on unpress
         has_layer_changed = true;
@@ -464,6 +465,7 @@ void matrix_scan_user(void) {
     if (leading) {
         if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
+            rgblight_setrgb(0xd0,0x60,0x10);
             rgblight_setrgb(0xd0,0x60,0x10);
             // rgblight_effect_knight(50);
             // rgblight_mode(14);
@@ -570,6 +572,7 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_setrgb(0xff,0x00,0x00);
+                rgblight_setrgb(0xff,0x00,0x00);
             }
             #endif
             break;
@@ -578,6 +581,7 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_setrgb(0x00,0xff,0x00);
+                rgblight_setrgb(0x00,0xff,0x00);
             }
             #endif
             break;
@@ -585,6 +589,7 @@ void matrix_scan_user(void) {
             // ergodox_right_led_3_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
+                rgblight_setrgb(0x00,0x00,0xff);
                 rgblight_setrgb(0x00,0x00,0xff);
             }
             #endif
@@ -595,7 +600,9 @@ void matrix_scan_user(void) {
             if (has_layer_changed) {
                 if (want_light_on) {
                     rgblight_setrgb(0x30,0x30,0x50);
+                    rgblight_setrgb(0x30,0x30,0x50);
                 } else {
+                    rgblight_setrgb(0x00,0x00,0x00);
                     rgblight_setrgb(0x00,0x00,0x00);
                 }
             }
