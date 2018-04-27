@@ -16,6 +16,11 @@
 
 #define _______ KC_TRNS
 
+#define MODS_SHIFT_MASK (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))
+#define MODS_CTRL_MASK  (MOD_BIT(KC_LCTL)|MOD_BIT(KC_RCTRL))
+#define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
+#define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
+
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     EPRM,
@@ -420,15 +425,35 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 LEADER_EXTERNS();
 void matrix_scan_user(void) {
 
-    uint8_t layer = biton32(layer_state);
+    uint8_t layer         = biton32(layer_state);
+    uint8_t modifiders    = get_mods();
+    uint8_t led_usb_state = host_keyboard_leds();
+    uint8_t one_shot      = get_oneshot_mods();
 
     ergodox_board_led_off();
     ergodox_right_led_1_off();
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
+
+    // Since we're not using the LEDs here for layer indication anymore,
+    // then lets use them for modifier indicators.  Shame we don't have 4...
+    // Also, no "else", since we want to know each, independently.
+    if (modifiders & MODS_SHIFT_MASK || led_usb_state & (1<<USB_LED_CAPS_LOCK) || one_shot & MODS_SHIFT_MASK) {
+      ergodox_right_led_2_on();
+      ergodox_right_led_2_set( 20 );
+    }
+    if (modifiders & MODS_CTRL_MASK || one_shot & MODS_CTRL_MASK) {
+      ergodox_right_led_1_on();
+      ergodox_right_led_1_set( 10 );
+    }
+    if (modifiders & MODS_ALT_MASK || one_shot & MODS_ALT_MASK) {
+      ergodox_right_led_3_on();
+      ergodox_right_led_3_set( 10 );
+    }
+
     switch (layer) {
         case 1:
-            ergodox_right_led_1_on();
+            // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_setrgb(0xff,0x00,0x00);
@@ -436,7 +461,7 @@ void matrix_scan_user(void) {
             #endif
             break;
         case 2:
-            ergodox_right_led_2_on();
+            // ergodox_right_led_2_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_setrgb(0x00,0xff,0x00);
@@ -444,7 +469,7 @@ void matrix_scan_user(void) {
             #endif
             break;
         case 3:
-            ergodox_right_led_3_on();
+            // ergodox_right_led_3_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_setrgb(0x00,0x00,0xff);
