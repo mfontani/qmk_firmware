@@ -378,6 +378,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// MODE 2-5, breathing
+// MODE 6-8, rainbow mood
+// MODE 9-14, rainbow swirl
+// MODE 15-20, snake
+// MODE 21-23, knight
+// MODE 24, xmas
+// MODE 25-34, static rainbow
+
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
     //set_unicode_input_mode(UC_LNX); // Linux
@@ -388,19 +396,15 @@ void matrix_init_user(void) {
     ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
+    rgblight_sethsv(0x0,0x0,0x50);
+    rgblight_sethsv(0x0,0x0,0x50);
+    rgblight_mode(2);
+    wait_ms(500);
+    rgblight_sethsv(0,0,0);
+    rgblight_sethsv(0,0,0);
     rgblight_mode(1);
-    rgblight_setrgb(0xff,0xff,0xff);
-#endif
-    for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
-        ergodox_led_all_set(i);
-        wait_ms(5);
-    }
-    wait_ms(250);
-    for (int i = LED_BRIGHTNESS_LO; i > 0; i--) {
-        ergodox_led_all_set(i);
-        wait_ms(10);
-    }
     ergodox_led_all_off();
+#endif
     has_layer_changed = true;
 }
 
@@ -454,8 +458,9 @@ void matrix_scan_user(void) {
     }
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
-        rgblight_setrgb(0xd0,0x30,0xd0);
-        rgblight_setrgb(0xd0,0x30,0xd0);
+        rgblight_sethsv_turquoise();
+        rgblight_sethsv_turquoise();
+        rgblight_mode(1);
         pressed_meh = true;
     } else if (pressed_meh) { // reset underglow color on unpress
         has_layer_changed = true;
@@ -465,10 +470,9 @@ void matrix_scan_user(void) {
     if (leading) {
         if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
-            rgblight_setrgb(0xd0,0x60,0x10);
-            rgblight_setrgb(0xd0,0x60,0x10);
-            // rgblight_effect_knight(50);
-            // rgblight_mode(14);
+            rgblight_sethsv_orange();
+            rgblight_sethsv_orange();
+            rgblight_mode(1);
             #endif
             was_leading = true;
         }
@@ -571,8 +575,9 @@ void matrix_scan_user(void) {
             // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_setrgb(0xff,0x00,0x00);
-                rgblight_setrgb(0xff,0x00,0x00);
+                rgblight_sethsv(0, 200, 200);
+                rgblight_sethsv(0, 200, 200);
+                rgblight_mode(1);
             }
             #endif
             break;
@@ -580,8 +585,9 @@ void matrix_scan_user(void) {
             // ergodox_right_led_2_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_setrgb(0x00,0xff,0x00);
-                rgblight_setrgb(0x00,0xff,0x00);
+                rgblight_sethsv(120,200,200);
+                rgblight_sethsv(120,200,200);
+                rgblight_mode(1);
             }
             #endif
             break;
@@ -589,8 +595,9 @@ void matrix_scan_user(void) {
             // ergodox_right_led_3_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_setrgb(0x00,0x00,0xff);
-                rgblight_setrgb(0x00,0x00,0xff);
+                rgblight_sethsv_blue();
+                rgblight_sethsv_blue();
+                rgblight_mode(1);
             }
             #endif
             break;
@@ -599,11 +606,13 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 if (want_light_on) {
-                    rgblight_setrgb(0x30,0x30,0x50);
-                    rgblight_setrgb(0x30,0x30,0x50);
+                    rgblight_sethsv(0x30,0x30,0x50);
+                    rgblight_sethsv(0x30,0x30,0x50);
+                    rgblight_mode(3);
                 } else {
-                    rgblight_setrgb(0x00,0x00,0x00);
-                    rgblight_setrgb(0x00,0x00,0x00);
+                    rgblight_sethsv(0,0,0);
+                    rgblight_sethsv(0,0,0);
+                    rgblight_mode(1);
                 }
             }
             #endif
@@ -615,5 +624,4 @@ void matrix_scan_user(void) {
         has_layer_changed = true;
         current_layer = layer;
     }
-
 }
