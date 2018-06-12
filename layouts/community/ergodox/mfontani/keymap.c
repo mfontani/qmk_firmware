@@ -514,6 +514,14 @@ void matrix_scan_user(void) {
             unregister_code(KC_LCTRL);
             tap(KC_S);
         }
+        // Leader 4 -> Alt+F4
+        SEQ_ONE_KEY(KC_4)
+        {
+            uprintf("LEADER - 4 - Alt+F4\n");
+            register_code(KC_LALT);
+            tap(KC_F4);
+            unregister_code(KC_LALT);
+        }
         // Leader R -> a few random Base64 bytes
         SEQ_ONE_KEY(KC_R)
         {
