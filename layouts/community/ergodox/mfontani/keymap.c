@@ -29,16 +29,6 @@ enum custom_keycodes {
     RGB_SLD,
     EMOJI_DISFACE,
     EMOJI_SHRUG,
-    M_SSH_WEB01,
-    M_SSH_WEB02,
-    M_SSH_WEB03,
-    M_SSH_WEB04,
-    M_SSH_OPS01,
-    M_SSH_OPS02,
-    M_SSH_OPS03,
-    M_SSH_APP01,
-    M_SSH_APP02,
-    M_SSH_HAPPY,
 };
 
 // Tap dances
@@ -171,20 +161,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // SYMBOLS
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       KC_ESC,  M_SSH_WEB01, M_SSH_WEB02, M_SSH_WEB03, M_SSH_WEB04, _______,     _______,
-       _______, _______,     M_SSH_APP01, _______,     _______,     M_SSH_OPS01, _______,
-       _______, M_SSH_APP02, M_SSH_OPS03, _______,     M_SSH_OPS02, _______,
-       _______, _______,     _______,     _______,     _______,     _______,     EMOJI_SHRUG,
-       _______, _______,     _______,     _______,     _______,
+       KC_ESC,  _______, _______, _______, _______, _______, _______,
+       _______, _______, _______, _______, _______, _______, _______,
+       _______, _______, _______, _______, _______, _______,
+       _______, _______, _______, _______, _______, _______, EMOJI_SHRUG,
+       _______, _______, _______, _______, _______,
                                                 KC_WH_U, KC_WH_D,
                                                          KC_PAUS,
                                        _______, _______, KC_SLCK,
        // right hand
-       _______,       _______,     _______,_______, _______, _______, KC_DELT,
-       VRSN,          _______,     _______,_______, _______, _______, _______,
-                      M_SSH_HAPPY, _______,_______, _______, _______, _______,
-       EMOJI_DISFACE, _______,     _______,_______, _______, KC_PGUP, _______,
-                      _______,     _______,KC_HOME, KC_PGDN, KC_END,
+       _______,       _______, _______,_______, _______, _______, KC_DELT,
+       VRSN,          _______, _______,_______, _______, _______, _______,
+                      _______, _______,_______, _______, _______, _______,
+       EMOJI_DISFACE, _______, _______,_______, _______, KC_PGUP, _______,
+                      _______, _______,KC_HOME, KC_PGDN, KC_END,
        KC_MUTE, KC_WBAK,
        KC_VOLU,
        KC_VOLD, _______, _______
@@ -257,17 +247,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 };
 
-#define mfontani_send_ssh(record, host)  \
-    if (record->event.pressed) { \
-        uprintf("process_record_user - ssh " host "\n"); \
-        register_code(KC_LCTRL); \
-        tap(KC_A); \
-        tap(KC_K); \
-        unregister_code(KC_LCTRL); \
-        SEND_STRING("ssh " host); \
-        tap(KC_ENT); \
-    }
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case EPRM:
@@ -332,46 +311,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
                 osx_switch_input_layout();
             }
-            return false;
-            break;
-        case M_SSH_WEB01:
-            mfontani_send_ssh(record,"web01.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_WEB02:
-            mfontani_send_ssh(record,"web02.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_WEB03:
-            mfontani_send_ssh(record,"web03.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_WEB04:
-            mfontani_send_ssh(record,"web04.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_APP01:
-            mfontani_send_ssh(record,"app01.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_APP02:
-            mfontani_send_ssh(record,"app02.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_OPS01:
-            mfontani_send_ssh(record,"ops01.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_OPS02:
-            mfontani_send_ssh(record,"ops02.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_OPS03:
-            mfontani_send_ssh(record,"ops03.theregister.co.uk");
-            return false;
-            break;
-        case M_SSH_HAPPY:
-            mfontani_send_ssh(record,"happy.sitpub.com");
             return false;
             break;
     }
