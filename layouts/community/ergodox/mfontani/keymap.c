@@ -9,6 +9,12 @@
 #endif
 #define LEADER_TIMEOUT 300
 
+// Allow processing more than one key per scan
+// You may want to enable QMK_KEYS_PER_SCAN because the Ergodox has a relatively slow scan rate.
+#ifndef QMK_KEYS_PER_SCAN
+#define QMK_KEYS_PER_SCAN 4
+#endif // !QMK_KEYS_PER_SCAN
+
 #define BASE 0 // default layer
 #define MDIA 1 // media keys
 #define SYMB 2 // symbols
