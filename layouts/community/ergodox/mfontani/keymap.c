@@ -37,10 +37,12 @@ enum custom_keycodes {
     EMOJI_SHRUG,
 };
 
+#ifdef TAP_DANCE_ENABLE
 // Tap dances
 enum {
     CT_MINSTILDE = 0,
 };
+#endif
 
 inline void tap(uint16_t keycode) {
     register_code(keycode);
@@ -89,7 +91,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                               KC_HOME,
                                                KC_SPC,KC_BSPC,KC_END,
         // right hand
+#ifdef TAP_DANCE_ENABLE
         KC_7,            KC_8, KC_9,            KC_0,            TD(CT_MINSTILDE), KC_EQL,           KC_BSPC,
+#else
+        KC_7,            KC_8, KC_9,            KC_0,            KC_MINS, KC_EQL,           KC_BSPC,
+#endif
         LCAG_T(KC_BSLS), KC_Y, KC_U,            KC_I,            KC_O,    KC_P,             KC_QUOT,
                          KC_H, KC_J,            KC_K,            KC_L,    LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
         KC_LEAD,         KC_N, KC_M,            KC_COMM,         KC_DOT,  KC_UP,            SFT_T(KC_SLSH),
@@ -353,6 +359,7 @@ void matrix_init_user(void) {
     has_layer_changed = true;
 }
 
+#ifdef TAP_DANCE_ENABLE
 // tap dance for minus to tilde or home
 void dance_tilde_home(qk_tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
@@ -365,12 +372,15 @@ void dance_tilde_home(qk_tap_dance_state_t *state, void *user_data) {
         SEND_STRING("~/");
     }
 }
+#endif
 
+#ifdef TAP_DANCE_ENABLE
 // tap dances
 qk_tap_dance_action_t tap_dance_actions[] = {
     // -- to get ~ or --- to get ~/
     [CT_MINSTILDE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_tilde_home, NULL)
 };
+#endif
 
 // Runs constantly in the background, in a loop.
 LEADER_EXTERNS();
