@@ -9,6 +9,10 @@
 #endif
 #define LEADER_TIMEOUT 300
 
+// EITHER of these should be set!
+#define MFONTANI_LINUX_UNICODE 1
+// #define MFONTANI_OSX_RALT_UNICODE 1
+
 // Allow processing more than one key per scan
 // You may want to enable QMK_KEYS_PER_SCAN because the Ergodox has a relatively slow scan rate.
 #ifndef QMK_KEYS_PER_SCAN
@@ -243,6 +247,7 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols)
 };
 
+#ifdef MFONTANI_OSX_RALT_UNICODE
 // I've mapped Alt+Cmd+Space to switch to next layout.
 // I usually stay in US layout, so switching gets me into Unicode layout, and
 // switching back gets me back to US layout.
@@ -253,6 +258,7 @@ void osx_switch_input_layout(void) {
     unregister_code(KC_LALT);
     unregister_code(KC_LGUI);
 }
+#endif
 
 // old way with M(...); unused.
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -294,34 +300,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case EMOJI_SHRUG: // ¯\_(ツ)_/¯
             if (record->event.pressed) {
                 uprintf("process_record_user - EMOJI_SHRUG\n");
+#ifdef MFONTANI_OSX_RALT_UNICODE
                 osx_switch_input_layout();
-                process_unicode((0x00AF|QK_UNICODE), record);   // Hand
-                tap(KC_BSLS);                                   // Arm
-                register_code(KC_RSFT);
-                tap(KC_UNDS);                                   // Arm
-                tap(KC_LPRN);                                   // Head
-                unregister_code(KC_RSFT);
-                process_unicode((0x30C4|QK_UNICODE), record);   // Face
-                register_code(KC_RSFT);
-                tap(KC_RPRN);                                   // Head
-                tap(KC_UNDS);                                   // Arm
-                unregister_code(KC_RSFT);
-                tap(KC_SLSH);                                   // Arm
-                process_unicode((0x00AF|QK_UNICODE), record);   // Hand
+#endif
+                send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
+#ifdef MFONTANI_OSX_RALT_UNICODE
                 osx_switch_input_layout();
+#endif
             }
             return false;
             break;
         case EMOJI_DISFACE: // ಠ_ಠ
             if(record->event.pressed){
                 uprintf("process_record_user - EMOJI_DISFACE\n");
+#ifdef MFONTANI_OSX_RALT_UNICODE
                 osx_switch_input_layout();
-                process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
-                register_code(KC_RSFT);
-                tap(KC_MINS);
-                unregister_code(KC_RSFT);
-                process_unicode((0x0CA0|QK_UNICODE), record);   // Eye
+#endif
+                send_unicode_hex_string("0CA0 005F 0CA0");
+#ifdef MFONTANI_OSX_RALT_UNICODE
                 osx_switch_input_layout();
+#endif
             }
             return false;
             break;
@@ -339,9 +337,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-    //set_unicode_input_mode(UC_LNX); // Linux
+#ifdef MFONTANI_LINUX_UNICODE
+    set_unicode_input_mode(UC_LNX); // Linux
+#endif
     //set_unicode_input_mode(UC_OSX); // Mac OSX
+#ifdef MFONTANI_OSX_RALT_UNICODE
     set_unicode_input_mode(UC_OSX_RALT); // Mac OSX using right alt key
+#endif
     //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
     //set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
     ergodox_led_all_on();
