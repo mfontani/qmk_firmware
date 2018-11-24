@@ -515,9 +515,13 @@ void matrix_scan_user(void) {
         SEQ_ONE_KEY(KC_DOT)
         {
             uprintf("LEADER - . - dot dot dot\n");
-            register_code(KC_RALT);
-            tap(KC_SCLN);
-            unregister_code(KC_RALT);
+#ifdef MFONTANI_OSX_RALT_UNICODE
+                osx_switch_input_layout();
+#endif
+                send_unicode_hex_string("2026");
+#ifdef MFONTANI_OSX_RALT_UNICODE
+                osx_switch_input_layout();
+#endif
         }
         // Not really working, possibly because KC_SCLN does also "MEDIA" layer
         // switch on my keyboard.
