@@ -24,6 +24,6 @@ ENV KEYMAP=default
 
 VOLUME /qmk_firmware
 WORKDIR /qmk_firmware
-COPY . .
+# COPY . .
 
 CMD make $KEYBOARD:$KEYMAP
