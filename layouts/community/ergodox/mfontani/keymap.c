@@ -344,8 +344,8 @@ void reset_unicode_input_mode(void) {
         set_unicode_input_mode(UC_OSX); // Mac OSX
 #endif
     } else if (os_type == OS_WIN) {
-        //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
-        set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
+        set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
+        // set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
     }
 }
 
