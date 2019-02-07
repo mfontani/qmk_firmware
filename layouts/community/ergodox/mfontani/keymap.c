@@ -4,22 +4,15 @@
 #include "action_layer.h"
 #include "version.h"
 
-#ifdef LEADER_TIMEOUT
-#undef LEADER_TIMEOUT
-#endif
-#define LEADER_TIMEOUT 350
-// Ensure each key pressed after leader resets the timeout
-#define LEADER_PER_KEY_TIMING
-
-// EITHER of these should be set!
-#define MFONTANI_LINUX_UNICODE 1
-// #define MFONTANI_OSX_RALT_UNICODE 1
-
-// Allow processing more than one key per scan
-// You may want to enable QMK_KEYS_PER_SCAN because the Ergodox has a relatively slow scan rate.
-#ifndef QMK_KEYS_PER_SCAN
-#define QMK_KEYS_PER_SCAN 4
-#endif // !QMK_KEYS_PER_SCAN
+/* OS Identifier */
+enum
+{
+  OS_WIN = 0,
+  OS_OSX,
+  OS_LIN,
+};
+// EITHER of these should be set as default!
+uint8_t os_type = OS_LIN;
 
 #define BASE 0 // default layer
 #define MDIA 1 // media keys
@@ -303,11 +296,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 uprintf("process_record_user - EMOJI_SHRUG\n");
 #ifdef MFONTANI_OSX_RALT_UNICODE
-                osx_switch_input_layout();
+                if (os_type == OS_OSX)
+                    osx_switch_input_layout();
 #endif
                 send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
 #ifdef MFONTANI_OSX_RALT_UNICODE
-                osx_switch_input_layout();
+                if (os_type == OS_OSX)
+                    osx_switch_input_layout();
 #endif
             }
             return false;
@@ -316,11 +311,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if(record->event.pressed){
                 uprintf("process_record_user - EMOJI_DISFACE\n");
 #ifdef MFONTANI_OSX_RALT_UNICODE
-                osx_switch_input_layout();
+                if (os_type == OS_OSX)
+                    osx_switch_input_layout();
 #endif
                 send_unicode_hex_string("0CA0 005F 0CA0");
 #ifdef MFONTANI_OSX_RALT_UNICODE
-                osx_switch_input_layout();
+                if (os_type == OS_OSX)
+                    osx_switch_input_layout();
 #endif
             }
             return false;
@@ -337,17 +334,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // MODE 24, xmas
 // MODE 25-34, static rainbow
 
+void reset_unicode_input_mode(void) {
+    if (os_type == OS_LIN) {
+        set_unicode_input_mode(UC_LNX); // Linux
+    } else if (os_type == OS_OSX) {
+#ifdef MFONTANI_OSX_RALT_UNICODE
+        set_unicode_input_mode(UC_OSX_RALT); // Mac OSX using right alt key
+#else
+        set_unicode_input_mode(UC_OSX); // Mac OSX
+#endif
+    } else if (os_type == OS_WIN) {
+        //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
+        set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
+    }
+}
+
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-#ifdef MFONTANI_LINUX_UNICODE
-    set_unicode_input_mode(UC_LNX); // Linux
-#endif
-    //set_unicode_input_mode(UC_OSX); // Mac OSX
-#ifdef MFONTANI_OSX_RALT_UNICODE
-    set_unicode_input_mode(UC_OSX_RALT); // Mac OSX using right alt key
-#endif
-    //set_unicode_input_mode(UC_WIN); // Windows (with registry key, see wiki)
-    //set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
+    reset_unicode_input_mode();
     ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
@@ -442,6 +446,24 @@ void matrix_scan_user(void) {
         was_leading = false;
         leader_end();
 
+        // Switch "os_type"
+        SEQ_THREE_KEYS(KC_W, KC_I, KC_N) { os_type = OS_WIN; reset_unicode_input_mode(); };
+        SEQ_THREE_KEYS(KC_O, KC_S, KC_X) { os_type = OS_OSX; reset_unicode_input_mode(); };
+        SEQ_THREE_KEYS(KC_L, KC_I, KC_N) { os_type = OS_LIN; reset_unicode_input_mode(); };
+
+        // Leader M -> "Mode" (which OS are we on?)
+        SEQ_ONE_KEY (KC_M) {
+            uprintf("LEADER - M - MODE\n");
+            if (os_type == OS_WIN) {
+                SEND_STRING("WIN");
+            } else if (os_type == OS_OSX) {
+                SEND_STRING("OSX");
+            } else if (os_type == OS_LIN) {
+                SEND_STRING("LIN");
+            } else {
+                SEND_STRING("WTF");
+            }
+        }
         // Leader V -> Version
         SEQ_ONE_KEY (KC_V) {
             uprintf("LEADER - V - VERSION\n");
@@ -518,10 +540,12 @@ void matrix_scan_user(void) {
         {
             uprintf("LEADER - . - dot dot dot\n");
 #ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
                 osx_switch_input_layout();
 #endif
-                send_unicode_hex_string("2026");
+            send_unicode_hex_string("2026");
 #ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
                 osx_switch_input_layout();
 #endif
         }
