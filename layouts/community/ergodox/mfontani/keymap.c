@@ -7,7 +7,9 @@
 #ifdef LEADER_TIMEOUT
 #undef LEADER_TIMEOUT
 #endif
-#define LEADER_TIMEOUT 500
+#define LEADER_TIMEOUT 350
+// Ensure each key pressed after leader resets the timeout
+#define LEADER_PER_KEY_TIMING
 
 // EITHER of these should be set!
 #define MFONTANI_LINUX_UNICODE 1
