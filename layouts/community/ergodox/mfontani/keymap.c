@@ -7,7 +7,7 @@
 #ifdef LEADER_TIMEOUT
 #undef LEADER_TIMEOUT
 #endif
-#define LEADER_TIMEOUT 300
+#define LEADER_TIMEOUT 500
 
 // EITHER of these should be set!
 #define MFONTANI_LINUX_UNICODE 1
