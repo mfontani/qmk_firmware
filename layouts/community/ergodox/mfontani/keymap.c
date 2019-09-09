@@ -432,6 +432,19 @@ void matrix_scan_user(void) {
             was_leading = true;
         }
     }
+/* Keymap 9: LEAD xxx
+ * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
+ * - M - which "mode" are we? (WIN, OSX, LIN)
+ * - V - print VERSION
+ * - C - CTRL+B C (for tmux, new window)
+ * - B - CTRL+B B (for tmux, alternate window)
+ * - S - CTRL+B S (for tmux, switch sessions)
+ * - 4 - ALT+F4 (kill window under Windows)
+ * - R - taps 9 random Base64 bytes
+ * - ` - types "~/"
+ * - h - types "~/"
+ * - . - types "…"
+ */
     LEADER_DICTIONARY()
     {
         leading     = false;
