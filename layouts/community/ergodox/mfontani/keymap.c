@@ -279,7 +279,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 uprintf("process_record_user - RGB_SLD\n");
                 #ifdef RGBLIGHT_ENABLE
-                rgblight_mode(1);
+                rgblight_mode_noeeprom(1);
                 #endif
             }
             return false;
@@ -349,11 +349,11 @@ void matrix_init_user(void) {
     rgblight_enable();
     rgblight_sethsv(0x0,0x0,0x50);
     rgblight_sethsv(0x0,0x0,0x50);
-    rgblight_mode(2);
+    rgblight_mode_noeeprom(2);
     wait_ms(500);
     rgblight_sethsv(0,0,0);
     rgblight_sethsv(0,0,0);
-    rgblight_mode(1);
+    rgblight_mode_noeeprom(1);
     ergodox_led_all_off();
 #endif
     has_layer_changed = true;
@@ -415,7 +415,7 @@ void matrix_scan_user(void) {
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
         rgblight_sethsv_turquoise();
         rgblight_sethsv_turquoise();
-        rgblight_mode(1);
+        rgblight_mode_noeeprom(1);
         pressed_meh = true;
     } else if (pressed_meh) { // reset underglow color on unpress
         has_layer_changed = true;
@@ -427,7 +427,7 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             rgblight_sethsv_orange();
             rgblight_sethsv_orange();
-            rgblight_mode(1);
+            rgblight_mode_noeeprom(1);
             #endif
             was_leading = true;
         }
@@ -577,7 +577,7 @@ void matrix_scan_user(void) {
             if (has_layer_changed) {
                 rgblight_sethsv(0, 200, 200);
                 rgblight_sethsv(0, 200, 200);
-                rgblight_mode(1);
+                rgblight_mode_noeeprom(1);
             }
             #endif
             break;
@@ -587,7 +587,7 @@ void matrix_scan_user(void) {
             if (has_layer_changed) {
                 rgblight_sethsv(120,200,200);
                 rgblight_sethsv(120,200,200);
-                rgblight_mode(1);
+                rgblight_mode_noeeprom(1);
             }
             #endif
             break;
@@ -597,7 +597,7 @@ void matrix_scan_user(void) {
             if (has_layer_changed) {
                 rgblight_sethsv_blue();
                 rgblight_sethsv_blue();
-                rgblight_mode(1);
+                rgblight_mode_noeeprom(1);
             }
             #endif
             break;
@@ -608,11 +608,11 @@ void matrix_scan_user(void) {
                 if (want_light_on) {
                     rgblight_sethsv(0x30,0x30,0x50);
                     rgblight_sethsv(0x30,0x30,0x50);
-                    rgblight_mode(3);
+                    rgblight_mode_noeeprom(3);
                 } else {
                     rgblight_sethsv(0,0,0);
                     rgblight_sethsv(0,0,0);
-                    rgblight_mode(1);
+                    rgblight_mode_noeeprom(1);
                 }
             }
             #endif
