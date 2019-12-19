@@ -575,8 +575,8 @@ void matrix_scan_user(void) {
             // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv_purple();
-                rgblight_sethsv_purple();
+                rgblight_sethsv_red();
+                rgblight_sethsv_red();
                 rgblight_mode_noeeprom(1);
             }
             #endif
