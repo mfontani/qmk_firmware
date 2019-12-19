@@ -575,8 +575,8 @@ void matrix_scan_user(void) {
             // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv(0, 200, 200);
-                rgblight_sethsv(0, 200, 200);
+                rgblight_sethsv_purple();
+                rgblight_sethsv_purple();
                 rgblight_mode_noeeprom(1);
             }
             #endif
@@ -585,8 +585,8 @@ void matrix_scan_user(void) {
             // ergodox_right_led_2_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv(120,200,200);
-                rgblight_sethsv(120,200,200);
+                rgblight_sethsv_green();
+                rgblight_sethsv_green();
                 rgblight_mode_noeeprom(1);
             }
             #endif
@@ -606,8 +606,8 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 if (want_light_on) {
-                    rgblight_sethsv(0x30,0x30,0x50);
-                    rgblight_sethsv(0x30,0x30,0x50);
+                    rgblight_sethsv_coral();
+                    rgblight_sethsv_coral();
                     rgblight_mode_noeeprom(3);
                 } else {
                     rgblight_sethsv(0,0,0);
