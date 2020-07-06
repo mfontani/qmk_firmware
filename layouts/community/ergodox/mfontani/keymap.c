@@ -119,9 +119,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      | BriUP|       | VolUp|      |TOGGLE|
+ *                                 |      |      | Pause|       | VolUp|      |TOGGLE|
  *                                 |      |      |------|       |------|      | BACK |
- *                                 |      |      | BriDN|       | VolDn|      | LIGHT|
+ *                                 |      |      | ScLck|       | VolDn|      | LIGHT|
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
@@ -160,9 +160,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | WhUP | WhDN |       | MUTE | BACK |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      | BriUP|       | VolUp|      |      |
+ *                                 |      |      | Pause|       | VolUp|      |      |
  *                                 |      |      |------|       |------|      |      |
- *                                 |      |      | BriDN|       | VolDn|      |      |
+ *                                 |      |      | ScLck|       | VolDn|      |      |
  *                                 `--------------------'       `--------------------'
  */
 // SYMBOLS
