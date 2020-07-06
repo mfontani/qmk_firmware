@@ -608,7 +608,7 @@ void matrix_scan_user(void) {
                 if (want_light_on) {
                     rgblight_sethsv_coral();
                     rgblight_sethsv_coral();
-                    rgblight_mode_noeeprom(3);
+                    rgblight_mode_noeeprom(1);
                 } else {
                     rgblight_sethsv(0,0,0);
                     rgblight_sethsv(0,0,0);
