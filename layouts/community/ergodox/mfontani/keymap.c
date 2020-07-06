@@ -1,6 +1,8 @@
 #include <stdarg.h>
 #include QMK_KEYBOARD_H
+#ifdef MFONTANI_UPRINTF
 #include "debug.h"
+#endif
 #include "action_layer.h"
 #include "version.h"
 
@@ -256,28 +258,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case EPRM:
             if (record->event.pressed) {
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - EPRM\n");
+#endif
                 eeconfig_init();
             }
             return false;
             break;
         case VRSN:
             if (record->event.pressed) {
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - VRSN\n");
+#endif
                 SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
             }
             return false;
             break;
         case TOGGLE_BACK_LIGHT:
             if (record->event.pressed) {
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - TOGGLE_BACK_LIGHT\n");
+#endif
                 want_light_on = !want_light_on;
             }
             return false;
             break;
         case RGB_SLD:
             if (record->event.pressed) {
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - RGB_SLD\n");
+#endif
                 #ifdef RGBLIGHT_ENABLE
                 rgblight_mode_noeeprom(1);
                 #endif
@@ -286,7 +296,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case EMOJI_SHRUG: // ¯\_(ツ)_/¯
             if (record->event.pressed) {
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - EMOJI_SHRUG\n");
+#endif
 #ifdef MFONTANI_OSX_RALT_UNICODE
                 if (os_type == OS_OSX)
                     osx_switch_input_layout();
@@ -301,7 +313,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case EMOJI_DISFACE: // ಠ_ಠ
             if(record->event.pressed){
+#ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - EMOJI_DISFACE\n");
+#endif
 #ifdef MFONTANI_OSX_RALT_UNICODE
                 if (os_type == OS_OSX)
                     osx_switch_input_layout();
@@ -458,7 +472,9 @@ void matrix_scan_user(void) {
 
         // Leader M -> "Mode" (which OS are we on?)
         SEQ_ONE_KEY (KC_M) {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - M - MODE\n");
+#endif
             if (os_type == OS_WIN) {
                 SEND_STRING("WIN");
             } else if (os_type == OS_OSX) {
@@ -471,13 +487,17 @@ void matrix_scan_user(void) {
         }
         // Leader V -> Version
         SEQ_ONE_KEY (KC_V) {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - V - VERSION\n");
+#endif
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
         }
         // Leader C -> CTRL+B C for tmux
         SEQ_ONE_KEY(KC_C)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - B - CTRL+B C\n");
+#endif
             register_code(KC_LCTRL);
             tap(KC_B);
             unregister_code(KC_LCTRL);
@@ -486,7 +506,9 @@ void matrix_scan_user(void) {
         // Leader B -> CTRL+B for tmux
         SEQ_ONE_KEY(KC_B)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - B - CTRL+B\n");
+#endif
             register_code(KC_LCTRL);
             tap(KC_B);
             unregister_code(KC_LCTRL);
@@ -494,7 +516,9 @@ void matrix_scan_user(void) {
         // Leader S -> CTRL+B + S for tmux switch sessions
         SEQ_ONE_KEY(KC_S)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - S - CTRL+B S\n");
+#endif
             register_code(KC_LCTRL);
             tap(KC_B);
             unregister_code(KC_LCTRL);
@@ -503,7 +527,9 @@ void matrix_scan_user(void) {
         // Leader 4 -> Alt+F4
         SEQ_ONE_KEY(KC_4)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - 4 - Alt+F4\n");
+#endif
             register_code(KC_LALT);
             tap(KC_F4);
             unregister_code(KC_LALT);
@@ -511,7 +537,9 @@ void matrix_scan_user(void) {
         // Leader R -> a few random Base64 bytes
         SEQ_ONE_KEY(KC_R)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - R - RANDOM BASE64\n");
+#endif
             tap_random_base64();
             tap_random_base64();
             tap_random_base64();
@@ -525,7 +553,9 @@ void matrix_scan_user(void) {
         // Leader ` -> ~/
         SEQ_ONE_KEY(KC_GRV)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - ` - ~/\n");
+#endif
             register_code(KC_RSFT);
             tap(KC_GRV);
             unregister_code(KC_RSFT);
@@ -534,7 +564,9 @@ void matrix_scan_user(void) {
         // Leader h -> ~/
         SEQ_ONE_KEY(KC_H)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - h - ~/\n");
+#endif
             register_code(KC_RSFT);
             tap(KC_GRV);
             unregister_code(KC_RSFT);
@@ -543,7 +575,9 @@ void matrix_scan_user(void) {
         // Leader . -> …
         SEQ_ONE_KEY(KC_DOT)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - . - dot dot dot\n");
+#endif
 #ifdef MFONTANI_OSX_RALT_UNICODE
             if (os_type == OS_OSX)
                 osx_switch_input_layout();
@@ -559,7 +593,9 @@ void matrix_scan_user(void) {
         // Leader ; -> …
         SEQ_ONE_KEY(KC_SCLN)
         {
+#ifdef MFONTANI_UPRINTF
             uprintf("LEADER - ; - dot dot dot\n");
+#endif
             register_code(KC_RALT);
             tap(KC_SCLN);
             unregister_code(KC_RALT);
