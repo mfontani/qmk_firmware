@@ -1,7 +1,7 @@
 #ifndef CONFIG_MFONTANI_H
 #define CONFIG_MFONTANI_H
 
-#define LEADER_TIMEOUT 500
+#define LEADER_TIMEOUT 300
 
 // Ensure each key pressed after leader resets the timeout
 #define LEADER_PER_KEY_TIMING
