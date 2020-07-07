@@ -450,9 +450,6 @@ void matrix_scan_user(void) {
  * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
  * - M - which "mode" are we? (WIN, OSX, LIN)
  * - V - print VERSION
- * - C - CTRL+B C (for tmux, new window)
- * - B - CTRL+B B (for tmux, alternate window)
- * - S - CTRL+B S (for tmux, switch sessions)
  * - 4 - ALT+F4 (kill window under Windows)
  * - R - taps 9 random Base64 bytes
  * - ` - types "~/"
@@ -491,38 +488,6 @@ void matrix_scan_user(void) {
             uprintf("LEADER - V - VERSION\n");
 #endif
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        }
-        // Leader C -> CTRL+B C for tmux
-        SEQ_ONE_KEY(KC_C)
-        {
-#ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - C - CTRL+B C\n");
-#endif
-            register_code(KC_LCTRL);
-            tap(KC_B);
-            unregister_code(KC_LCTRL);
-            tap(KC_C);
-        }
-        // Leader B -> CTRL+B for tmux
-        SEQ_ONE_KEY(KC_B)
-        {
-#ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - B - CTRL+B\n");
-#endif
-            register_code(KC_LCTRL);
-            tap(KC_B);
-            unregister_code(KC_LCTRL);
-        }
-        // Leader S -> CTRL+B + S for tmux switch sessions
-        SEQ_ONE_KEY(KC_S)
-        {
-#ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - S - CTRL+B S\n");
-#endif
-            register_code(KC_LCTRL);
-            tap(KC_B);
-            unregister_code(KC_LCTRL);
-            tap(KC_S);
         }
         // Leader 4 -> Alt+F4
         SEQ_ONE_KEY(KC_4)
