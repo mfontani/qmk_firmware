@@ -496,7 +496,7 @@ void matrix_scan_user(void) {
         SEQ_ONE_KEY(KC_C)
         {
 #ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - B - CTRL+B C\n");
+            uprintf("LEADER - C - CTRL+B C\n");
 #endif
             register_code(KC_LCTRL);
             tap(KC_B);
