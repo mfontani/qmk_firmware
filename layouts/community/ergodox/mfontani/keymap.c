@@ -450,6 +450,9 @@ void matrix_scan_user(void) {
  * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
  * - M - which "mode" are we? (WIN, OSX, LIN)
  * - V - print VERSION
+ * - - - en dash
+ * - = - em dash
+ * - ? - interrobang
  * - 4 - ALT+F4 (kill window under Windows)
  * - R - taps 9 random Base64 bytes
  * - ` - types "~/"
@@ -481,6 +484,51 @@ void matrix_scan_user(void) {
             } else {
                 SEND_STRING("WTF");
             }
+        }
+        // Leader - -> en dash
+        SEQ_ONE_KEY (KC_MINS) {
+#ifdef MFONTANI_UPRINTF
+            uprintf("LEADER - - - EN DASH\n");
+#endif
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
+            send_unicode_hex_string("2013");
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
+        }
+        // Leader = -> em dash
+        SEQ_ONE_KEY (KC_EQL) {
+#ifdef MFONTANI_UPRINTF
+            uprintf("LEADER - = - EM DASH\n");
+#endif
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
+            send_unicode_hex_string("2014");
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
+        }
+        // Leader / -> interrobang
+        SEQ_ONE_KEY (KC_SLSH) {
+#ifdef MFONTANI_UPRINTF
+            uprintf("LEADER - ? - INTERROBANG\n");
+#endif
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
+            send_unicode_hex_string("203d");
+#ifdef MFONTANI_OSX_RALT_UNICODE
+            if (os_type == OS_OSX)
+                osx_switch_input_layout();
+#endif
         }
         // Leader V -> Version
         SEQ_ONE_KEY (KC_V) {
