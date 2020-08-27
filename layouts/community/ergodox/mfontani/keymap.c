@@ -427,9 +427,11 @@ void matrix_scan_user(void) {
     }
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
+        #ifdef RGBLIGHT_ENABLE
         rgblight_sethsv_turquoise();
         rgblight_sethsv_turquoise();
         rgblight_mode_noeeprom(1);
+        #endif
         pressed_meh = true;
     } else if (pressed_meh) { // reset underglow color on unpress
         has_layer_changed = true;
