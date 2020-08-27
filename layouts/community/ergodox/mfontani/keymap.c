@@ -361,11 +361,10 @@ void matrix_init_user(void) {
     ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
-    rgblight_sethsv(0x0,0x0,0x50);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
     rgblight_sethsv(0x0,0x0,0x50);
     rgblight_mode_noeeprom(2);
-    wait_ms(500);
-    rgblight_sethsv(0,0,0);
+    wait_ms(200);
     rgblight_sethsv(0,0,0);
     rgblight_mode_noeeprom(1);
     ergodox_led_all_off();
