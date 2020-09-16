@@ -28,6 +28,8 @@ uint8_t os_type = OS_LIN;
 #define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 
+char wpm_str[12];
+
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     EPRM,
@@ -267,6 +269,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 uprintf("process_record_user - VRSN\n");
 #endif
                 SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+                SEND_STRING (" ");
+                sprintf(wpm_str, "WPM: %03d", get_current_wpm());
+                send_string(wpm_str);
             }
             return false;
             break;
