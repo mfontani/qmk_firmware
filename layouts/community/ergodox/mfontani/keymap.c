@@ -232,10 +232,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-const uint16_t PROGMEM fn_actions[] = {
-    [1] = ACTION_LAYER_TAP_TOGGLE(SYMB)                // FN1 - Momentary Layer 1 (Symbols)
-};
-
 #ifdef MFONTANI_OSX_RALT_UNICODE
 // I've mapped Alt+Cmd+Space to switch to next layout.
 // I usually stay in US layout, so switching gets me into Unicode layout, and
