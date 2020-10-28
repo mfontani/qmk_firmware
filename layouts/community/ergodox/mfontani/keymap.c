@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        |  /?  |  '"  |       | Del  | AltGr|
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      | Home |       | PgUp |      |      |
- *                                 | Space|Bkspc |------|       |------| Enter| Space|
+ *                                 | Space|LCtrl |------|       |------| Enter| Space|
  *                                 |      |      | End  |       | PgDn |      |      |
  *                                 `--------------------'       `--------------------'
  */
@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,       LT(SYMB,KC_GRV), KC_RALT, KC_LALT, KC_LGUI,
                                                       KC_SLSH,KC_QUOT,
                                                               KC_HOME,
-                                               KC_SPC,KC_BSPC,KC_END,
+                                               KC_SPC,KC_LCTL,KC_END,
         // right hand
 #ifdef TAP_DANCE_ENABLE
         KC_7,            KC_8, KC_9,    KC_0,    TD(CT_MINSTILDE), KC_EQL,           KC_BSPC,
