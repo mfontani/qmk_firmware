@@ -3,6 +3,10 @@
 
 #define LEADER_TIMEOUT 300
 
+// I want quick tap dances
+#undef TAPPING_TERM
+#define TAPPING_TERM 175
+
 // Ensure each key pressed after leader resets the timeout
 #define LEADER_PER_KEY_TIMING
 

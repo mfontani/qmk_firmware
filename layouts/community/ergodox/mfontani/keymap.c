@@ -43,7 +43,11 @@ enum custom_keycodes {
 #ifdef TAP_DANCE_ENABLE
 // Tap dances
 enum {
-    CT_MINSTILDE = 0,
+    CT_MI = 0,
+    CT_EQ,
+    CT_AT,
+    CT_IT,
+    CT_BB,
 };
 #endif
 
@@ -85,24 +89,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_ESC,        KC_1,            KC_2,    KC_3,    KC_4,    KC_5, KC_6,
-        KC_TAB,        KC_Q,            KC_W,    KC_E,    KC_R,    KC_T, LT(SYMB,KC_SLSH),
-        KC_LCTL,       KC_A,            KC_S,    KC_D,    KC_F,    KC_G,
-        KC_LSFT,       KC_Z,            KC_X,    KC_C,    KC_V,    KC_B, KC_GRV,
-        KC_LCTL,       LT(SYMB,KC_GRV), KC_RALT, KC_LALT, KC_LGUI,
-                                                      KC_SLSH,KC_QUOT,
-                                                              KC_HOME,
-                                               KC_SPC,KC_LCTL,KC_END,
+#ifdef TAP_DANCE_ENABLE
+        KC_ESC,        KC_1,            TD(CT_AT), KC_3,    TD(CT_IT), KC_5, KC_6,
+#else
+        KC_ESC,        KC_1,            KC_2,      KC_3,    KC_4,      KC_5, KC_6,
+#endif
+        KC_TAB,        KC_Q,            KC_W,      KC_E,    KC_R,      KC_T, LT(SYMB,KC_SLSH),
+        KC_LCTL,       KC_A,            KC_S,      KC_D,    KC_F,      KC_G,
+#ifdef TAP_DANCE_ENABLE
+        KC_LSFT,       KC_Z,            KC_X,      KC_C,    KC_V,      TD(CT_BB), KC_GRV,
+#else
+        KC_LSFT,       KC_Z,            KC_X,      KC_C,    KC_V,      KC_B, KC_GRV,
+#endif
+        KC_LCTL,       LT(SYMB,KC_GRV), KC_RALT,   KC_LALT, KC_LGUI,
+                                                        KC_SLSH,KC_QUOT,
+                                                                KC_HOME,
+                                                  KC_SPC,KC_LCTL,KC_END,
         // right hand
 #ifdef TAP_DANCE_ENABLE
-        KC_7,            KC_8, KC_9,    KC_0,    TD(CT_MINSTILDE), KC_EQL,           KC_BSPC,
+        KC_7,            KC_8, KC_9,    KC_0,    TD(CT_MI), TD(CT_EQ),      KC_BSPC,
 #else
-        KC_7,            KC_8, KC_9,    KC_0,    KC_MINS,          KC_EQL,           KC_BSPC,
+        KC_7,            KC_8, KC_9,    KC_0,    KC_MINS,   KC_EQL,           KC_BSPC,
 #endif
-        LCAG_T(KC_BSLS), KC_Y, KC_U,    KC_I,    KC_O,             KC_P,             KC_QUOT,
-                         KC_H, KC_J,    KC_K,    KC_L,             LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_LEAD,         KC_N, KC_M,    KC_COMM, KC_DOT,           KC_UP,            SFT_T(KC_SLSH),
-                               KC_LBRC, KC_RBRC, KC_LEFT,          KC_DOWN,          KC_RIGHT,
+        LCAG_T(KC_BSLS), KC_Y, KC_U,    KC_I,    KC_O,      KC_P,             KC_QUOT,
+                         KC_H, KC_J,    KC_K,    KC_L,      LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
+        KC_LEAD,         KC_N, KC_M,    KC_COMM, KC_DOT,    KC_UP,            SFT_T(KC_SLSH),
+                               KC_LBRC, KC_RBRC, KC_LEFT,   KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
         KC_PGDN, KC_ENT, KC_SPC
@@ -374,25 +386,84 @@ void matrix_init_user(void) {
 }
 
 #ifdef TAP_DANCE_ENABLE
-// tap dance for minus to tilde or home
-void dance_tilde_home(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
-        tap(KC_MINS);
+// tap dance for == for ~/
+void dance_double_home(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap(KC_EQL);
+            break;
+        case 2:
+            if (keyboard_report->mods == 0) {
+                SEND_STRING("~/");
+                break;
+            }
+        default:
+            for (int i = 0 ; i < state->count ; i++) {
+                tap(KC_EQL);
+                if (i < (state->count-1)) {
+                    wait_ms(20);
+                }
+            }
     }
-    else if (state->count == 2) {
-        SEND_STRING("~");
+    reset_tap_dance(state);
+}
+// tap dance for @@ to @_
+void dance_double_at(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap(KC_2);
+            break;
+        case 2:
+            if (keyboard_report->mods == 0) {
+                SEND_STRING("@_");
+                break;
+            }
+        default:
+            for (int i = 0 ; i < state->count ; i++) {
+                tap(KC_2);
+                if (i < (state->count-1)) {
+                    wait_ms(20);
+                }
+            }
     }
-    else if (state->count == 3) {
-        SEND_STRING("~/");
+    reset_tap_dance(state);
+}
+// tap dance for $$ to $_
+void dance_double_it(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap(KC_4);
+            break;
+        case 2:
+            if (keyboard_report->mods == 0) {
+                SEND_STRING("$_");
+                break;
+            }
+        default:
+            for (int i = 0 ; i < state->count ; i++) {
+                tap(KC_4);
+                if (i < (state->count-1)) {
+                    wait_ms(20);
+                }
+            }
     }
+    reset_tap_dance(state);
 }
 #endif
 
 #ifdef TAP_DANCE_ENABLE
 // tap dances
 qk_tap_dance_action_t tap_dance_actions[] = {
-    // -- to get ~ or --- to get ~/
-    [CT_MINSTILDE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_tilde_home, NULL)
+    // -- to get ~
+    [CT_MI] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_TILDE),
+    // == to get ~/
+    [CT_EQ] = ACTION_TAP_DANCE_FN(dance_double_home),
+    // @@ to get @_
+    [CT_AT] = ACTION_TAP_DANCE_FN(dance_double_at),
+    // $$ to get $_
+    [CT_IT] = ACTION_TAP_DANCE_FN(dance_double_it),
+    // BB to get CTRL+B
+    [CT_BB] = ACTION_TAP_DANCE_DOUBLE(KC_B, LCTL(KC_B)),
 };
 #endif
 
