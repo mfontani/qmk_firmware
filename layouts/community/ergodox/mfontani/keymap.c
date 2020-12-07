@@ -17,9 +17,8 @@ enum
 uint8_t os_type = OS_LIN;
 
 #define BASE 0 // default layer
-#define WORK 1 // workman layout
-#define MDIA 2 // media keys
-#define LRGB 3 // unused RGB layer
+#define MDIA 1 // media keys
+#define LRGB 2 // unused RGB layer
 
 #define _______ KC_TRNS
 
@@ -119,47 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PGUP,
         KC_PGDN, KC_ENT, KC_SPC
     ),
-/* Keymap 1: Workman layer
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   7  |   8  |   9  |   0  |   -  |   =  |Backspac|
- * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   D  |   R  |   W  |   B  |  /   |           |   \  |   J  |   F  |   U  |   P  |  :;  |   '"   |
- * |--------+------+------+------+------+------| MDIA |           |  CAG |------+------+------+------+------+--------|
- * | LCtrl  |   A  |   S  |   H  |   T  |   G  |------|           |------|   Y  |   N  |   E  |   O  |I/MDIA|Ent/CMD |
- * |--------+------+------+------+------+------|  `~  |           | LEAD |------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   M  |   C  |   V  |      |           |      |   K  |   L  |   ,  |   .  |  UP  | / Shift|
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |MDIA/`| AltG | Alt  |  Cmd |                                       |   [  |   ]  | LEFT | DOWN | RIGHT|
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |  /?  |  '"  |       | Del  | AltGr|
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      | Home |       | PgUp |      |      |
- *                                 | Space|LCtrl |------|       |------| Enter| Space|
- *                                 |      |      | End  |       | PgDn |      |      |
- *                                 `--------------------'       `--------------------'
- */
-[WORK] = LAYOUT_ergodox(
-        _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_Q,    KC_D,    KC_R,    KC_W,    KC_B,    _______,
-        _______, KC_A,    KC_S,    KC_H,    KC_T,    KC_G,
-        _______, KC_Z,    KC_X,    KC_M,    KC_C,    KC_V,    _______,
-        _______, _______, _______, _______, _______,
-                                                _______, _______,
-                                                         _______,
-                                       _______, _______, _______,
-        // right hand
-        _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_J,    KC_F,    KC_U,    KC_P,    KC_SCLN, _______,
-                 KC_Y,    KC_N,    KC_E,    KC_O,    LT(MDIA,KC_I), _______,
-        _______, KC_K,    KC_L,    _______, _______, _______, _______,
-                          _______, _______, _______, _______, _______,
-        _______, _______,
-        _______,
-        _______, _______, _______
-),
-/* Keymap 2: Media and mouse keys
+/* Keymap 1: Media and mouse keys
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | Esc    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | DELETE |
@@ -200,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_VOLU,
         KC_VOLD, _______, TOGGLE_BACK_LIGHT
 ),
-/* Keymap 3: COMPLETELY UNUSED RGB light layer
+/* Keymap 2: COMPLETELY UNUSED RGB light layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -519,8 +478,6 @@ void matrix_scan_user(void) {
     }
 /* Keymap 9: LEAD xxx
  * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
- * - QW or 1 - switch to qwerty
- * - WM or 2 - switch to workman
  * - M - which "mode" are we? (WIN, OSX, LIN)
  * - V - print VERSION
  * - - - en dash
@@ -542,12 +499,6 @@ void matrix_scan_user(void) {
         SEQ_THREE_KEYS(KC_W, KC_I, KC_N) { os_type = OS_WIN; reset_unicode_input_mode(); };
         SEQ_THREE_KEYS(KC_O, KC_S, KC_X) { os_type = OS_OSX; reset_unicode_input_mode(); };
         SEQ_THREE_KEYS(KC_L, KC_I, KC_N) { os_type = OS_LIN; reset_unicode_input_mode(); };
-
-        // Switch base layers
-        SEQ_ONE_KEY(KC_1) { layer_move(BASE); }
-        SEQ_TWO_KEYS(KC_Q, KC_W) { layer_move(BASE);; }
-        SEQ_ONE_KEY(KC_2) { layer_move(WORK); }
-        SEQ_TWO_KEYS(KC_W, KC_M) { layer_move(WORK); }
 
         // Leader M -> "Mode" (which OS are we on?)
         SEQ_ONE_KEY (KC_M) {
@@ -699,15 +650,6 @@ void matrix_scan_user(void) {
     if (leading || was_leading) return;
 
     switch (layer) {
-        case WORK:
-            // ergodox_right_led_1_on();
-            #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                rgblight_sethsv_noeeprom_azure();
-                rgblight_mode_noeeprom(1);
-            }
-            #endif
-            break;
         case MDIA:
             // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
