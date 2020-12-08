@@ -216,7 +216,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 uprintf("process_record_user - RGB_SLD\n");
 #endif
                 #ifdef RGBLIGHT_ENABLE
-                rgblight_mode_noeeprom(1);
+                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
                 #endif
             }
             return false;
@@ -289,11 +289,9 @@ void matrix_init_user(void) {
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
     rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv(0x0,0x0,0x50);
-    rgblight_mode_noeeprom(2);
+    rgblight_sethsv_noeeprom(0x0,0x0,0x50);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
     wait_ms(200);
-    rgblight_sethsv(0,0,0);
-    rgblight_mode_noeeprom(1);
     ergodox_led_all_off();
 #endif
     has_layer_changed = true;
@@ -413,9 +411,8 @@ void matrix_scan_user(void) {
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
         #ifdef RGBLIGHT_ENABLE
-        rgblight_sethsv_turquoise();
-        rgblight_sethsv_turquoise();
-        rgblight_mode_noeeprom(1);
+        rgblight_sethsv_noeeprom_turquoise();
+        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
         #endif
         pressed_meh = true;
     } else if (pressed_meh) { // reset underglow color on unpress
@@ -426,9 +423,8 @@ void matrix_scan_user(void) {
     if (leading) {
         if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
-            rgblight_sethsv_orange();
-            rgblight_sethsv_orange();
-            rgblight_mode_noeeprom(1);
+            rgblight_sethsv_noeeprom_orange();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             #endif
             was_leading = true;
         }
@@ -611,9 +607,8 @@ void matrix_scan_user(void) {
             // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv_green();
-                rgblight_sethsv_green();
-                rgblight_mode_noeeprom(1);
+                rgblight_sethsv_noeeprom_magenta();
+                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             }
             #endif
             break;
@@ -622,14 +617,11 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 if (want_light_on) {
-                    rgblight_sethsv_coral();
-                    rgblight_sethsv_coral();
-                    rgblight_mode_noeeprom(1);
+                    rgblight_sethsv_noeeprom_coral();
                 } else {
-                    rgblight_sethsv(0,0,0);
-                    rgblight_sethsv(0,0,0);
-                    rgblight_mode_noeeprom(1);
+                    rgblight_sethsv_noeeprom(0,0,0);
                 }
+                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             }
             #endif
             break;
