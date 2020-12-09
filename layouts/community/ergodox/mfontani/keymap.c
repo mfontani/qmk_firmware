@@ -487,6 +487,9 @@ void matrix_scan_user(void) {
             uprintf("LEADER - V - VERSION\n");
 #endif
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            SEND_STRING (" ");
+            sprintf(wpm_str, "WPM: %03d", get_current_wpm());
+            send_string(wpm_str);
         }
         // Leader 4 -> Alt+F4
         SEQ_ONE_KEY(KC_4)
