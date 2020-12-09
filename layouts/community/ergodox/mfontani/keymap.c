@@ -377,7 +377,7 @@ void matrix_scan_user(void) {
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
         #ifdef RGBLIGHT_ENABLE
-        rgblight_sethsv_noeeprom_turquoise();
+        rgblight_sethsv_noeeprom_yellow();
         rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
         #endif
         pressed_meh = true;
@@ -389,7 +389,7 @@ void matrix_scan_user(void) {
     if (leading) {
         if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
-            rgblight_sethsv_noeeprom_orange();
+            rgblight_sethsv_noeeprom_purple();
             rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             #endif
             was_leading = true;
@@ -574,7 +574,7 @@ void matrix_scan_user(void) {
         case MDIA:
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv_noeeprom_magenta();
+                rgblight_sethsv_noeeprom_red();
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             }
             #endif
@@ -584,7 +584,7 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 if (want_light_on) {
-                    rgblight_sethsv_noeeprom_coral();
+                    rgblight_sethsv_noeeprom_orange();
                 } else {
                     rgblight_sethsv_noeeprom(0,0,0);
                 }
