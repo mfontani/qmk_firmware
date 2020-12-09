@@ -13,33 +13,34 @@ enum
   OS_OSX,
   OS_LIN,
 };
+
 // EITHER of these should be set as default!
 uint8_t os_type = OS_LIN;
 
-#define BASE 0 // default layer
+// "BASE" is the zeroth, and default, layer.
+#define BASE 0
+// "MDIA" is the media layer, on top of the BASE layer.
 #define MDIA 1 // media keys
 
-#define _______ KC_TRNS
-
+// Ease bitmasks for whether shift, ctrl, alt, or gui (super) is pressed
 #define MODS_SHIFT_MASK (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL_MASK  (MOD_BIT(KC_LCTL)|MOD_BIT(KC_RCTRL))
 #define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 
+// Track WPM (words per minute)
 char wpm_str[12];
 
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
-    EPRM,
-    VRSN,
-    TOGGLE_BACK_LIGHT,
-    RGB_SLD,
-    EMOJI_DISFACE,
-    EMOJI_SHRUG,
+    VRSN,               // show the keyboard's version and other stats (i.e. wpm)
+    TOGGLE_BACK_LIGHT,  // does what it says
+    EMOJI_DISFACE,      // send an emoji: ಠ_ಠ
+    EMOJI_SHRUG,        // send an emoji: ¯\_(ツ)_/¯
 };
 
 #ifdef TAP_DANCE_ENABLE
-// Tap dances
+// Tap dances declarations
 enum {
     CT_MI = 0,
     CT_EQ,
@@ -47,14 +48,30 @@ enum {
     CT_IT,
     CT_BB,
 };
+
+// Tap dances' behaviour:
+qk_tap_dance_action_t tap_dance_actions[] = {
+    // -- to get ~
+    [CT_MI] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_TILDE),
+    // == to get ~/
+    [CT_EQ] = ACTION_TAP_DANCE_FN(dance_double_home),
+    // @@ to get @_
+    [CT_AT] = ACTION_TAP_DANCE_FN(dance_double_at),
+    // $$ to get $_
+    [CT_IT] = ACTION_TAP_DANCE_FN(dance_double_it),
+    // BB to get CTRL+B
+    [CT_BB] = ACTION_TAP_DANCE_DOUBLE(KC_B, LCTL(KC_B)),
+};
 #endif
 
+// Easy function to "just" tap a key
 inline void tap(uint16_t keycode) {
     register_code(keycode);
     unregister_code(keycode);
 };
 
-// custom layer change change colour
+// Change bottom LEDs colours whenever the layer changes, or when a special key is
+// pressed.
 bool has_layer_changed = false;
 bool want_light_on     = false;
 bool pressed_meh       = false;
@@ -83,8 +100,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      | End  |       | PgDn |      |      |
  *                                 `--------------------'       `--------------------'
  */
-// If it accepts an argument (i.e, is a function), it doesn't need KC_.
-// Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
 #ifdef TAP_DANCE_ENABLE
@@ -126,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |MsLeft|MsDown|MsRght|      |------|           |------| Left | Down |  Up  | Right|      |  Play  |
  * |--------+------+------+------+------+------| EMOJI|           |EMOJI |------+------+------+------+------+--------|
- * |        |      |MSAcc0|MSAcc1|MSAcc2|      |SHRUG |           |DISFCE|      |      | Prev | Next | PgUp |        |
+ * |        |      |MSAcc0|MSAcc1|MSAcc2|      |SHRUG |           |DISFCE|      |      |MDPrev|MDNext| PgUp |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      | Mclk | Lclk | Rclk |                                       |      |      | Home | PgDn |  End |
  *   `----------------------------------'                                       `----------------------------------'
@@ -173,22 +188,8 @@ void osx_switch_input_layout(void) {
 }
 #endif
 
-// old way with M(...); unused.
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
-    return MACRO_NONE;
-};
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case EPRM:
-            if (record->event.pressed) {
-#ifdef MFONTANI_UPRINTF
-                uprintf("process_record_user - EPRM\n");
-#endif
-                eeconfig_init();
-            }
-            return false;
-            break;
         case VRSN:
             if (record->event.pressed) {
 #ifdef MFONTANI_UPRINTF
@@ -207,17 +208,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 uprintf("process_record_user - TOGGLE_BACK_LIGHT\n");
 #endif
                 want_light_on = !want_light_on;
-            }
-            return false;
-            break;
-        case RGB_SLD:
-            if (record->event.pressed) {
-#ifdef MFONTANI_UPRINTF
-                uprintf("process_record_user - RGB_SLD\n");
-#endif
-                #ifdef RGBLIGHT_ENABLE
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-                #endif
             }
             return false;
             break;
@@ -258,14 +248,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-// MODE 2-5, breathing
-// MODE 6-8, rainbow mood
-// MODE 9-14, rainbow swirl
-// MODE 15-20, snake
-// MODE 21-23, knight
-// MODE 24, xmas
-// MODE 25-34, static rainbow
 
 void reset_unicode_input_mode(void) {
     if (os_type == OS_LIN) {
@@ -363,22 +345,6 @@ void dance_double_it(qk_tap_dance_state_t *state, void *user_data) {
 }
 #endif
 
-#ifdef TAP_DANCE_ENABLE
-// tap dances
-qk_tap_dance_action_t tap_dance_actions[] = {
-    // -- to get ~
-    [CT_MI] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_TILDE),
-    // == to get ~/
-    [CT_EQ] = ACTION_TAP_DANCE_FN(dance_double_home),
-    // @@ to get @_
-    [CT_AT] = ACTION_TAP_DANCE_FN(dance_double_at),
-    // $$ to get $_
-    [CT_IT] = ACTION_TAP_DANCE_FN(dance_double_it),
-    // BB to get CTRL+B
-    [CT_BB] = ACTION_TAP_DANCE_DOUBLE(KC_B, LCTL(KC_B)),
-};
-#endif
-
 // Runs constantly in the background, in a loop.
 LEADER_EXTERNS();
 void matrix_scan_user(void) {
@@ -429,7 +395,9 @@ void matrix_scan_user(void) {
             was_leading = true;
         }
     }
-/* Keymap 9: LEAD xxx
+    // This is a bit of a hack, to ensure my script which shows the keyboard
+    // layout using a Perl/Tk script, shows the list of supported leader keys:
+/* Keymap 666: LEAD xxx
  * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
  * - M - which "mode" are we? (WIN, OSX, LIN)
  * - V - print VERSION
@@ -604,7 +572,6 @@ void matrix_scan_user(void) {
 
     switch (layer) {
         case MDIA:
-            // ergodox_right_led_1_on();
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 rgblight_sethsv_noeeprom_magenta();
