@@ -28,9 +28,6 @@ uint8_t os_type = OS_LIN;
 #define MODS_ALT_MASK   (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 
-// Track WPM (words per minute)
-char wpm_str[12];
-
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     VRSN,               // show the keyboard's version and other stats (i.e. wpm)
@@ -188,6 +185,29 @@ void osx_switch_input_layout(void) {
 }
 #endif
 
+void mf_send_version(void) {
+    // Track WPM (words per minute)
+    char wpm_str[12];
+    SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+    SEND_STRING(" ");
+    sprintf(wpm_str, "WPM: %03d", get_current_wpm());
+    send_string(wpm_str);
+    SEND_STRING(" RGBLight ");
+    if (rgblight_is_enabled()) {
+        SEND_STRING("ON ");
+        static char rgbStatusLine1[26] = {0};
+        snprintf(rgbStatusLine1, sizeof(rgbStatusLine1), "Mode: %d", rgblight_get_mode());
+        send_string(rgbStatusLine1);
+        SEND_STRING(" ");
+        static char rgbStatusLine2[26] = {0};
+        snprintf(rgbStatusLine2, sizeof(rgbStatusLine2), "h:%d s:%d v:%d", rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val());
+        send_string(rgbStatusLine2);
+    }
+    else {
+        SEND_STRING("OFF");
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case VRSN:
@@ -195,10 +215,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef MFONTANI_UPRINTF
                 uprintf("process_record_user - VRSN\n");
 #endif
-                SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-                SEND_STRING (" ");
-                sprintf(wpm_str, "WPM: %03d", get_current_wpm());
-                send_string(wpm_str);
+                mf_send_version();
             }
             return false;
             break;
@@ -486,10 +503,7 @@ void matrix_scan_user(void) {
 #ifdef MFONTANI_UPRINTF
             uprintf("LEADER - V - VERSION\n");
 #endif
-            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-            SEND_STRING (" ");
-            sprintf(wpm_str, "WPM: %03d", get_current_wpm());
-            send_string(wpm_str);
+            mf_send_version();
         }
         // Leader 4 -> Alt+F4
         SEQ_ONE_KEY(KC_4)
