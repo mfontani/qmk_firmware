@@ -14,6 +14,18 @@ enum
   OS_LIN,
 };
 
+#define MF_HSV_OFF 0, 0, 0
+#define MF_HSV_PINK 234, 128, 255
+// #define MF_HSV_PURPLE 191, 255, 255
+// #define MF_HSV_YELLOW 43, 255, 255
+// #define MF_HSV_ORANGE 28, 255, 255
+// #define MF_HSV_RED 0, 255, 255
+// These are a little softer
+#define MF_HSV_YELLOW 43, 255, 128
+#define MF_HSV_PURPLE 191, 255, 128
+#define MF_HSV_ORANGE 21, 255, 128
+#define MF_HSV_RED 0, 255, 128
+
 // EITHER of these should be set as default!
 uint8_t os_type = OS_LIN;
 
@@ -288,7 +300,7 @@ void matrix_init_user(void) {
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
     rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv_noeeprom(0x0,0x0,0x50);
+    rgblight_sethsv_noeeprom(MF_HSV_PINK);
     rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
     wait_ms(200);
     ergodox_led_all_off();
@@ -394,7 +406,7 @@ void matrix_scan_user(void) {
     // That said, the MEH key should also show the underglow.
     if (modifiders & MODS_CTRL_MASK && modifiders & MODS_ALT_MASK && modifiders & MODS_GUI_MASK) {
         #ifdef RGBLIGHT_ENABLE
-        rgblight_sethsv_noeeprom_yellow();
+        rgblight_sethsv_noeeprom(MF_HSV_YELLOW);
         rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
         #endif
         pressed_meh = true;
@@ -406,7 +418,7 @@ void matrix_scan_user(void) {
     if (leading) {
         if (!was_leading) {
             #ifdef RGBLIGHT_ENABLE
-            rgblight_sethsv_noeeprom_purple();
+            rgblight_sethsv_noeeprom(MF_HSV_PURPLE);
             rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             #endif
             was_leading = true;
@@ -591,7 +603,7 @@ void matrix_scan_user(void) {
         case MDIA:
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
-                rgblight_sethsv_noeeprom_red();
+                rgblight_sethsv_noeeprom(MF_HSV_RED);
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             }
             #endif
@@ -601,9 +613,9 @@ void matrix_scan_user(void) {
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
                 if (want_light_on) {
-                    rgblight_sethsv_noeeprom_orange();
+                    rgblight_sethsv_noeeprom(MF_HSV_ORANGE);
                 } else {
-                    rgblight_sethsv_noeeprom(0,0,0);
+                    rgblight_sethsv_noeeprom(MF_HSV_OFF);
                 }
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             }
