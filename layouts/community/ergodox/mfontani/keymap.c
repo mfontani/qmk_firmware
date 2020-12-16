@@ -135,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #endif
         LCAG_T(KC_BSLS), KC_Y, KC_U,    KC_I,    KC_O,      KC_P,             KC_QUOT,
                          KC_H, KC_J,    KC_K,    KC_L,      LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_LEAD,         KC_N, KC_M,    KC_COMM, KC_DOT,    KC_UP,            SFT_T(KC_SLSH),
+        KC_LEAD,         KC_N, KC_M,    KC_COMM, KC_DOT,    KC_UP,            RSFT_T(KC_SLSH),
                                KC_LBRC, KC_RBRC, KC_LEFT,   KC_DOWN,          KC_RIGHT,
         KC_DELT, KC_RALT,
         KC_PGUP,
