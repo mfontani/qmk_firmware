@@ -93,8 +93,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   7  |   8  |   9  |   0  |   -  |   =  |Backspac|
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   E  |   R  |   T  |  /   |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
- * |--------+------+------+------+------+------| MDIA |           |  CAG |------+------+------+------+------+--------|
+ * | Tab    |   Q  |   W  |   E  |   R  |   T  |   ?  |           |   \  |   Y  |   U  |   I  |   O  |   P  |   '"   |
+ * |--------+------+------+------+------+------|   /  |           |  CAG |------+------+------+------+------+--------|
  * | LCtrl  |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MDIA|Ent/CMD |
  * |--------+------+------+------+------+------|  `~  |           | LEAD |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |  UP  | / Shift|
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #else
         KC_ESC,        KC_1,            KC_2,      KC_3,    KC_4,      KC_5, KC_6,
 #endif
-        KC_TAB,        KC_Q,            KC_W,      KC_E,    KC_R,      KC_T, LT(MDIA,KC_SLSH),
+        KC_TAB,        KC_Q,            KC_W,      KC_E,    KC_R,      KC_T, KC_SLSH,
         KC_LCTL,       KC_A,            KC_S,      KC_D,    KC_F,      KC_G,
 #ifdef TAP_DANCE_ENABLE
         KC_LSFT,       KC_Z,            KC_X,      KC_C,    KC_V,      TD(CT_BB), KC_GRV,
