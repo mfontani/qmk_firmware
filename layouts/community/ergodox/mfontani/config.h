@@ -14,6 +14,9 @@
 // You may want to enable QMK_KEYS_PER_SCAN because the Ergodox has a relatively slow scan rate.
 #define QMK_KEYS_PER_SCAN 4
 
+// Whether to do "unicode stuff" at all
+#define MFONTANI_UNICODE 1
+
 // #define MFONTANI_OSX_RALT_UNICODE 1
 
 // #define MFONTANI_UPRINTF 1

@@ -6,6 +6,7 @@
 #include "action_layer.h"
 #include "version.h"
 
+#ifdef MFONTANI_UNICODE
 /* OS Identifier */
 enum
 {
@@ -13,6 +14,7 @@ enum
   OS_OSX,
   OS_LIN,
 };
+#endif
 
 #define MF_HSV_OFF 0, 0, 0
 #define MF_HSV_PINK 234, 128, 255
@@ -26,8 +28,10 @@ enum
 #define MF_HSV_ORANGE 21, 255, 128
 #define MF_HSV_RED 0, 255, 128
 
+#ifdef MFONTANI_UNICODE
 // EITHER of these should be set as default!
 uint8_t os_type = OS_LIN;
+#endif
 
 // "BASE" is the zeroth, and default, layer.
 #define BASE 0
@@ -44,8 +48,10 @@ enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     VRSN,               // show the keyboard's version and other stats (i.e. wpm)
     TOGGLE_BACK_LIGHT,  // does what it says
+#ifdef MFONTANI_UNICODE
     EMOJI_DISFACE,      // send an emoji: ಠ_ಠ
     EMOJI_SHRUG,        // send an emoji: ¯\_(ツ)_/¯
+#endif
 };
 
 #ifdef TAP_DANCE_ENABLE
@@ -167,7 +173,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,
         KC_MYCM, _______, _______, KC_MS_U, _______, _______, KC_CALC,
         _______, KC_MAIL, KC_MS_L, KC_MS_D, KC_MS_R, _______,
+#ifdef MFONTANI_UNICODE
         _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, EMOJI_SHRUG,
+#else
+        _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+#endif
         _______, _______, KC_BTN3, KC_BTN1, KC_BTN2,
                                                 KC_WH_U, KC_WH_D,
                                                          KC_PAUS,
@@ -176,7 +186,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F7,         KC_F8,   KC_F9,   KC_F10,        KC_F11,        KC_F12,  KC_DELT,
         VRSN,          _______, _______, LCTL(KC_WH_U), LCTL(KC_WH_D), KC_PSCR, KC_APP,
                        KC_LEFT, KC_DOWN, KC_UP,         KC_RIGHT,      _______, KC_MPLY,
+#ifdef MFONTANI_UNICODE
         EMOJI_DISFACE, _______, _______, KC_MPRV,       KC_MNXT,       KC_PGUP, _______,
+#else
+        _______,       _______, _______, KC_MPRV,       KC_MNXT,       KC_PGUP, _______,
+#endif
                                 _______, _______,       KC_HOME,       KC_PGDN, KC_END,
         KC_MUTE, KC_WBAK,
         KC_VOLU,
@@ -184,6 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+#ifdef MFONTANI_UNICODE
 #ifdef MFONTANI_OSX_RALT_UNICODE
 // I've mapped Alt+Cmd+Space to switch to next layout.
 // I usually stay in US layout, so switching gets me into Unicode layout, and
@@ -196,12 +211,32 @@ void osx_switch_input_layout(void) {
     unregister_code(KC_LGUI);
 }
 #endif
+#endif
 
 void mf_send_version(void) {
     // Track WPM (words per minute)
     char wpm_str[12];
     SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
     SEND_STRING(" ");
+#ifdef MFONTANI_UNICODE
+    SEND_STRING("(unicode");
+#ifdef MFONTANI_OSX_RALT_UNICODE
+    SEND_STRING(" OSX_RALT");
+#endif
+    SEND_STRING(" ");
+    if (os_type == OS_WIN) {
+        SEND_STRING("WIN");
+    } else if (os_type == OS_OSX) {
+        SEND_STRING("OSX");
+    } else if (os_type == OS_LIN) {
+        SEND_STRING("LIN");
+    } else {
+        SEND_STRING("WTF");
+    }
+    SEND_STRING(") ");
+#else
+    SEND_STRING("(!UNICODE) ");
+#endif
     sprintf(wpm_str, "WPM: %03d", get_current_wpm());
     send_string(wpm_str);
     SEND_STRING(" RGBLight ");
@@ -240,6 +275,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+#ifdef MFONTANI_UNICODE
         case EMOJI_SHRUG: // ¯\_(ツ)_/¯
             if (record->event.pressed) {
 #ifdef MFONTANI_UPRINTF
@@ -257,6 +293,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+#endif
+#ifdef MFONTANI_UNICODE
         case EMOJI_DISFACE: // ಠ_ಠ
             if(record->event.pressed){
 #ifdef MFONTANI_UPRINTF
@@ -274,10 +312,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+#endif
     }
     return true;
 }
 
+#ifdef MFONTANI_UNICODE
 void reset_unicode_input_mode(void) {
     if (os_type == OS_LIN) {
         set_unicode_input_mode(UC_LNX); // Linux
@@ -292,10 +332,13 @@ void reset_unicode_input_mode(void) {
         // set_unicode_input_mode(UC_WINC); // Windows (with WinCompose, see wiki)
     }
 }
+#endif
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+#ifdef MFONTANI_UNICODE
     reset_unicode_input_mode();
+#endif
     ergodox_led_all_on();
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();
@@ -445,11 +488,14 @@ void matrix_scan_user(void) {
         was_leading = false;
         leader_end();
 
+#ifdef MFONTANI_UNICODE
         // Switch "os_type"
         SEQ_THREE_KEYS(KC_W, KC_I, KC_N) { os_type = OS_WIN; reset_unicode_input_mode(); };
         SEQ_THREE_KEYS(KC_O, KC_S, KC_X) { os_type = OS_OSX; reset_unicode_input_mode(); };
         SEQ_THREE_KEYS(KC_L, KC_I, KC_N) { os_type = OS_LIN; reset_unicode_input_mode(); };
+#endif
 
+#ifdef MFONTANI_UNICODE
         // Leader M -> "Mode" (which OS are we on?)
         SEQ_ONE_KEY (KC_M) {
 #ifdef MFONTANI_UPRINTF
@@ -465,6 +511,8 @@ void matrix_scan_user(void) {
                 SEND_STRING("WTF");
             }
         }
+#endif
+#ifdef MFONTANI_UNICODE
         // Leader - -> en dash
         SEQ_ONE_KEY (KC_MINS) {
 #ifdef MFONTANI_UPRINTF
@@ -480,6 +528,8 @@ void matrix_scan_user(void) {
                 osx_switch_input_layout();
 #endif
         }
+#endif
+#ifdef MFONTANI_UNICODE
         // Leader = -> em dash
         SEQ_ONE_KEY (KC_EQL) {
 #ifdef MFONTANI_UPRINTF
@@ -495,6 +545,8 @@ void matrix_scan_user(void) {
                 osx_switch_input_layout();
 #endif
         }
+#endif
+#ifdef MFONTANI_UNICODE
         // Leader / -> interrobang
         SEQ_ONE_KEY (KC_SLSH) {
 #ifdef MFONTANI_UPRINTF
@@ -510,6 +562,7 @@ void matrix_scan_user(void) {
                 osx_switch_input_layout();
 #endif
         }
+#endif
         // Leader V -> Version
         SEQ_ONE_KEY (KC_V) {
 #ifdef MFONTANI_UPRINTF
