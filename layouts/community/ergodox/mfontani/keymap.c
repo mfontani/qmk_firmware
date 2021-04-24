@@ -58,7 +58,6 @@ enum custom_keycodes {
 // Tap dances declarations
 enum {
     CT_MI = 0,
-    CT_EQ,
     CT_AT,
     CT_IT,
     CT_BB,
@@ -68,8 +67,6 @@ enum {
 qk_tap_dance_action_t tap_dance_actions[] = {
     // -- to get ~
     [CT_MI] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_TILDE),
-    // == to get ~/
-    [CT_EQ] = ACTION_TAP_DANCE_FN(dance_double_home),
     // @@ to get @_
     [CT_AT] = ACTION_TAP_DANCE_FN(dance_double_at),
     // $$ to get $_
@@ -412,27 +409,6 @@ void matrix_init_user(void) {
 }
 
 #ifdef TAP_DANCE_ENABLE
-// tap dance for == for ~/
-void dance_double_home(qk_tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            tap(KC_EQL);
-            break;
-        case 2:
-            if (keyboard_report->mods == 0) {
-                SEND_STRING("~/");
-                break;
-            }
-        default:
-            for (int i = 0 ; i < state->count ; i++) {
-                tap(KC_EQL);
-                if (i < (state->count-1)) {
-                    wait_ms(20);
-                }
-            }
-    }
-    reset_tap_dance(state);
-}
 // tap dance for @@ to @_
 void dance_double_at(qk_tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
@@ -538,8 +514,6 @@ void matrix_scan_user(void) {
  * - ? - interrobang
  * - 4 - ALT+F4 (kill window under Windows)
  * - R - taps 9 random Base64 bytes
- * - ` - types "~/"
- * - h - types "~/"
  * - . - types "…"
  */
     LEADER_DICTIONARY()
@@ -655,28 +629,6 @@ void matrix_scan_user(void) {
             tap_random_base64();
             tap_random_base64();
             tap_random_base64();
-        }
-        // Leader ` -> ~/
-        SEQ_ONE_KEY(KC_GRV)
-        {
-#ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - ` - ~/\n");
-#endif
-            register_code(KC_RSFT);
-            tap(KC_GRV);
-            unregister_code(KC_RSFT);
-            tap(KC_SLSH);
-        }
-        // Leader h -> ~/
-        SEQ_ONE_KEY(KC_H)
-        {
-#ifdef MFONTANI_UPRINTF
-            uprintf("LEADER - h - ~/\n");
-#endif
-            register_code(KC_RSFT);
-            tap(KC_GRV);
-            unregister_code(KC_RSFT);
-            tap(KC_SLSH);
         }
         // Leader . -> …
         SEQ_ONE_KEY(KC_DOT)
