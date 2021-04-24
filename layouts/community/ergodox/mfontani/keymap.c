@@ -253,6 +253,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+#if defined(COMBO_ENABLE)
+enum combos {
+  WA_WEBAPP,
+  QA_QALL,
+  TR_TROIS,
+  JK_HOME,
+  WE_WEBSITE_DESIGN,
+  GT_GIT,
+};
+const uint16_t PROGMEM wa_combo[] = {KC_W, KC_A, COMBO_END};
+const uint16_t PROGMEM qa_combo[] = {KC_Q, KC_A, COMBO_END};
+const uint16_t PROGMEM tr_combo[] = {KC_T, KC_R, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM we_combo[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM gt_combo[] = {KC_G, KC_T, COMBO_END};
+combo_t key_combos[COMBO_COUNT] = {
+    [WA_WEBAPP] = COMBO_ACTION(wa_combo),
+    [QA_QALL] = COMBO_ACTION(qa_combo),
+    [TR_TROIS] = COMBO_ACTION(tr_combo),
+    [JK_HOME] = COMBO_ACTION(jk_combo),
+    [WE_WEBSITE_DESIGN] = COMBO_ACTION(we_combo),
+    [GT_GIT] = COMBO_ACTION(gt_combo),
+};
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch(combo_index) {
+        case GT_GIT:
+            if (pressed) {
+                SEND_STRING("git ");
+            }
+            break;
+        case JK_HOME:
+            if (pressed) {
+                SEND_STRING("~/");
+            }
+            break;
+        case WE_WEBSITE_DESIGN:
+            if (pressed) {
+                SEND_STRING("website_design");
+            }
+            break;
+        case WA_WEBAPP:
+            if (pressed) {
+                SEND_STRING("Web_App");
+            }
+            break;
+        case QA_QALL:
+            if (pressed) {
+                tap(KC_ESC);
+                SEND_STRING(":qall!");
+            }
+            break;
+        case TR_TROIS:
+            if (pressed) {
+                SEND_STRING("trois");
+            }
+            break;
+    }
+}
+#endif
+
 #ifdef MFONTANI_UNICODE
 #ifdef MFONTANI_OSX_RALT_UNICODE
 // I've mapped Alt+Cmd+Space to switch to next layout.
