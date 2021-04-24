@@ -35,10 +35,8 @@ uint8_t os_type = OS_LIN;
 
 // "BASE" is the zeroth, and default, layer.
 #define BASE 0
-// "CVIM" is the Colemak+Vim keys layer, on top of the BASE layer.
-#define CVIM 1
 // "MDIA" is the media layer, on top of the BASE layer.
-#define MDIA 2
+#define MDIA 1 // media keys
 
 // Ease bitmasks for whether shift, ctrl, alt, or gui (super) is pressed
 #define MODS_SHIFT_MASK (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))
@@ -149,60 +147,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PGUP,
         KC_PGDN, KC_ENT, KC_SPC
     ),
-/* Keymap 1: Colemak + VIM
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   7  |   8  |   9  |   0  |   -  |   =  |Backspac|
- * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   F  |   P  |   G  |   ?  |           |   \  |   K  |   L  |   U  |   Y  |   O  |   '"   |
- * |--------+------+------+------+------+------|   /  |           |  CAG |------+------+------+------+------+--------|
- * | LCtrl  |   A  |   R  |   S  |   T  |   D  |------|           |------|   H  |   N  |   E  |   I  |;/MDIA|Ent/CMD |
- * |--------+------+------+------+------+------|  `~  |           | LEAD |------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   J  |   M  |   ,  |   .  |  UP  | / Shift|
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCtrl |MDIA/`| AltG | Alt  |  Cmd |                                       |   [  |   ]  | LEFT | DOWN | RIGHT|
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |  /?  |  '"  |       | Del  | AltGr|
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      | Home |       | PgUp |      |      |
- *                                 | Space| MDIA |------|       |------| Enter| Space|
- *                                 |      |      | End  |       | PgDn |      |      |
- *                                 `--------------------'       `--------------------'
- */
-[CVIM] = LAYOUT_ergodox(  // layer 0 : default
-        // left hand
-#ifdef TAP_DANCE_ENABLE
-        KC_ESC,        KC_1,            TD(CT_AT), KC_3,    TD(CT_IT), KC_5, KC_6,
-#else
-        KC_ESC,        KC_1,            KC_2,      KC_3,    KC_4,      KC_5, KC_6,
-#endif
-        KC_TAB,        KC_Q,            KC_W,      KC_F,    KC_P,      KC_G, KC_SLSH,
-        KC_LCTL,       KC_A,            KC_R,      KC_S,    KC_T,      KC_D,
-#ifdef TAP_DANCE_ENABLE
-        KC_LSFT,       KC_Z,            KC_X,      KC_C,    KC_V,      TD(CT_BB), KC_GRV,
-#else
-        KC_LSFT,       KC_Z,            KC_X,      KC_C,    KC_V,      KC_B, KC_GRV,
-#endif
-        KC_LCTL,       LT(MDIA,KC_GRV), KC_RALT,   KC_LALT, KC_LGUI,
-                                                        KC_SLSH,KC_QUOT,
-                                                                KC_HOME,
-                                                 KC_SPC,TG(MDIA),KC_END,
-        // right hand
-#ifdef TAP_DANCE_ENABLE
-        KC_7,            KC_8, KC_9,    KC_0,    TD(CT_MI), TD(CT_EQ),      KC_BSPC,
-#else
-        KC_7,            KC_8, KC_9,    KC_0,    KC_MINS,   KC_EQL,           KC_BSPC,
-#endif
-        LCAG_T(KC_BSLS), KC_K, KC_L,    KC_U,    KC_Y,      KC_O,             KC_QUOT,
-                         KC_H, KC_N,    KC_E,    KC_I,      LT(MDIA,KC_SCLN), GUI_T(KC_ENT),
-        KC_LEAD,         KC_J, KC_M,    KC_COMM, KC_DOT,    KC_UP,            RSFT_T(KC_SLSH),
-                               KC_LBRC, KC_RBRC, KC_LEFT,   KC_DOWN,          KC_RIGHT,
-        KC_DELT, KC_RALT,
-        KC_PGUP,
-        KC_PGDN, KC_ENT, KC_SPC
-    ),
-/* Keymap 2: Media and mouse keys
+/* Keymap 1: Media and mouse keys
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | Esc    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | DELETE |
@@ -586,8 +531,6 @@ void matrix_scan_user(void) {
     // layout using a Perl/Tk script, shows the list of supported leader keys:
 /* Keymap 666: LEAD xxx
  * - WIN, OSX, LIN - switch to Windows, OSX RALT or Linux Unicode modes
- * - COL - switch to CVIM layer
- * - QWE - switch to BASE layer
  * - M - which "mode" are we? (WIN, OSX, LIN)
  * - V - print VERSION
  * - - - en dash
@@ -611,10 +554,6 @@ void matrix_scan_user(void) {
         SEQ_THREE_KEYS(KC_O, KC_S, KC_X) { os_type = OS_OSX; reset_unicode_input_mode(); };
         SEQ_THREE_KEYS(KC_L, KC_I, KC_N) { os_type = OS_LIN; reset_unicode_input_mode(); };
 #endif
-
-        SEQ_THREE_KEYS(KC_C, KC_O, KC_L) { layer_move(CVIM); };
-        SEQ_THREE_KEYS(KC_Q, KC_W, KC_E) { layer_move(BASE); };
-        SEQ_THREE_KEYS(KC_Q, KC_W, KC_F) { layer_move(BASE); };
 
 #ifdef MFONTANI_UNICODE
         // Leader M -> "Mode" (which OS are we on?)
@@ -774,18 +713,6 @@ void matrix_scan_user(void) {
     if (leading || was_leading) return;
 
     switch (layer) {
-        case CVIM:
-            #ifdef RGBLIGHT_ENABLE
-            if (has_layer_changed) {
-                if (want_light_on) {
-                    rgblight_sethsv_noeeprom(MF_HSV_ORANGE);
-                } else {
-                    rgblight_sethsv_noeeprom(MF_HSV_YELLOW);
-                }
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-            }
-            #endif
-            break;
         case MDIA:
             #ifdef RGBLIGHT_ENABLE
             if (has_layer_changed) {
