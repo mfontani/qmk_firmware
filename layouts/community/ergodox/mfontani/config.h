@@ -22,6 +22,6 @@
 // #define MFONTANI_UPRINTF 1
 
 #define COMBO_COUNT 6
-#define COMBO_TERM 100
+#define COMBO_TERM 30
 
 #endif
