@@ -203,6 +203,7 @@ enum combos {
   JK_HOME,
   WE_WEBSITE_DESIGN,
   GT_GIT,
+  ER_ELREG,
 };
 const uint16_t PROGMEM wa_combo[] = {KC_W, KC_A, COMBO_END};
 const uint16_t PROGMEM qa_combo[] = {KC_Q, KC_A, COMBO_END};
@@ -210,6 +211,7 @@ const uint16_t PROGMEM tr_combo[] = {KC_T, KC_R, COMBO_END};
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM we_combo[] = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM gt_combo[] = {KC_G, KC_T, COMBO_END};
+const uint16_t PROGMEM er_combo[] = {KC_E, KC_R, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
     [WA_WEBAPP] = COMBO_ACTION(wa_combo),
     [QA_QALL] = COMBO_ACTION(qa_combo),
@@ -217,6 +219,7 @@ combo_t key_combos[COMBO_COUNT] = {
     [JK_HOME] = COMBO_ACTION(jk_combo),
     [WE_WEBSITE_DESIGN] = COMBO_ACTION(we_combo),
     [GT_GIT] = COMBO_ACTION(gt_combo),
+    [ER_ELREG] = COMBO_ACTION(er_combo),
 };
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch(combo_index) {
@@ -228,6 +231,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case JK_HOME:
             if (pressed) {
                 SEND_STRING("~/");
+            }
+            break;
+        case ER_ELREG:
+            if (pressed) {
+                SEND_STRING("ElReg");
             }
             break;
         case WE_WEBSITE_DESIGN:
