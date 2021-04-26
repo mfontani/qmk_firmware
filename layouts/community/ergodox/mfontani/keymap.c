@@ -169,7 +169,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [MDIA] = LAYOUT_ergodox(
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,
         KC_MYCM, _______, _______, KC_MS_U, _______, _______, KC_CALC,
+#if defined(COMBO_ENABLE)
+        _______, KC_MAIL, KC_MS_L, KC_MS_D, KC_MS_R, CMB_TOG,
+#else
         _______, KC_MAIL, KC_MS_L, KC_MS_D, KC_MS_R, _______,
+#endif
 #ifdef MFONTANI_UNICODE
         _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, EMOJI_SHRUG,
 #else
@@ -301,6 +305,17 @@ void mf_send_version(void) {
     SEND_STRING(") ");
 #else
     SEND_STRING("(!UNICODE) ");
+#endif
+#if defined(COMBO_ENABLE)
+    SEND_STRING("(combo ");
+    if (is_combo_enabled()) {
+        SEND_STRING("on");
+    } else {
+        SEND_STRING("OFF");
+    }
+    SEND_STRING(") ");
+#else
+    SEND_STRING("(!COMBO) ");
 #endif
     sprintf(wpm_str, "WPM: %03d", get_current_wpm());
     send_string(wpm_str);
