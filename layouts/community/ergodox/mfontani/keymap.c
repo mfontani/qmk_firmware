@@ -283,8 +283,10 @@ void osx_switch_input_layout(void) {
 #endif
 
 void mf_send_version(void) {
+#if defined(WPM_ENABLE)
     // Track WPM (words per minute)
     char wpm_str[12];
+#endif
     SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
     SEND_STRING(" ");
 #ifdef MFONTANI_UNICODE
@@ -317,8 +319,12 @@ void mf_send_version(void) {
 #else
     SEND_STRING("(!COMBO) ");
 #endif
+#if defined(WPM_ENABLE)
     sprintf(wpm_str, "WPM: %03d", get_current_wpm());
     send_string(wpm_str);
+#else
+    send_string("WPM: disabled");
+#endif
     SEND_STRING(" RGBLight ");
     if (rgblight_is_enabled()) {
         SEND_STRING("ON ");
